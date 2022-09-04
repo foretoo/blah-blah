@@ -1,3 +1,6 @@
+public:
+- https://foretoo.github.io/blah-blah/
+
 todos:
 - 🦀 ***fix*** — different attractors at the same time (gpgpu issue)
 - 🍚 ***add*** — sphere roughness
