@@ -69,7 +69,7 @@ export const bindController = (
       sphere.geometry.dispose()
       sphere.material.dispose()
       scene.remove(sphere)
-      gui.removeFolder(sphereGUI)
+      sphereGUI.destroy()
 
       delete localStoredSpheres[uuid]
       locateSpheres()

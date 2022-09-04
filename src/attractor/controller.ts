@@ -118,7 +118,7 @@ export const bindGUI = (
       attractorMesh.geometry.dispose()
       attractorMesh.material.dispose()
       scene.remove(attractorMesh)
-      gui.removeFolder(attractorGUI)
+      attractorGUI.destroy()
 
       delete localStoredAttractors[uuid]
       locateAttractors()

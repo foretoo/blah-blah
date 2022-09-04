@@ -1,11 +1,11 @@
 import { Color, PerspectiveCamera, Scene, WebGLRenderer } from "three"
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls"
-import dat from "dat.gui"
+import GUI from "lil-gui"
 
 
 
 // GUI
-export const gui = new dat.GUI()
+export const gui = new GUI()
 
 // Canvas
 export const canvas = document.querySelector("canvas")!
