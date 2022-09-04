@@ -1,6 +1,6 @@
 import { Color, PerspectiveCamera, Scene, WebGLRenderer } from "three"
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls"
-import GUI from "lil-gui"
+import GUI from "three/examples/jsm/libs/lil-gui.module.min.js"
 
 
 

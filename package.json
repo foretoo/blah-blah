@@ -22,7 +22,6 @@
     "vite-plugin-glsl": "^0.3.0"
   },
   "dependencies": {
-    "lil-gui": "^0.17.0",
     "three": "^0.142.0"
   }
 }
