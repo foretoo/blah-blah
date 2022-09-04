@@ -1,11 +1,9 @@
 import "./style.sass"
-import { camera, gui, orbit, renderer, scene } from "./setup"
+import { camera, gpuComputer, gui, orbit, renderer, scene } from "./setup"
 import { initiateState } from "./state"
 import { initClearPlane } from "./clear"
 import { initAttractor } from "./attractor"
 import { initSphere } from "./sphere"
-import { gpuCompute } from "./attractor/gpgpu"
-
 
 
 
@@ -31,13 +29,12 @@ let t = 0
 const play = () => {
   t += 0.01
 
-  
+  gpuComputer.compute()
   spheresUpdate.forEach((update) => update(t))
   attractorsUpdate.forEach((update) => update(t))
 
   orbit.update()
   renderer.render(scene, camera)
-  gpuCompute()
   requestAnimationFrame(play)
 }
 requestAnimationFrame(play)

@@ -1,6 +1,8 @@
 import { Color, PerspectiveCamera, Scene, WebGLRenderer } from "three"
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls"
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js"
+import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer"
+import { spherePointsAmount } from "./shared"
 
 
 
@@ -34,3 +36,8 @@ addEventListener("resize", () => {
   camera.updateProjectionMatrix()
   renderer.setSize(innerWidth, innerHeight)  
 })
+
+// GPGPU
+const amount = spherePointsAmount
+const side = Math.sqrt(amount)
+export const gpuComputer = new GPUComputationRenderer(side, side, renderer)

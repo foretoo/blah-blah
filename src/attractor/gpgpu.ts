@@ -1,6 +1,5 @@
 import { RepeatWrapping } from "three"
-import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer"
-import { renderer } from "../setup"
+import { gpuComputer } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
 import { IAttractorName, IGPGPUUniforms } from "./types"
 import aizawaShader from "./shaders/aizawa.glsl"
@@ -13,12 +12,9 @@ const shader = {
   thomas: thomasShader
 }
 
+
+
 const amount = spherePointsAmount
-const side = Math.sqrt(amount)
-
-const gpuComputer = new GPUComputationRenderer(side, side, renderer)
-export const gpuCompute = () => gpuComputer.compute()
-
 const p = spherePositions
 const initialPositions = new Float32Array(amount * 4)
 for (let i = 0; i < amount; i++) {
