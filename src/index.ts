@@ -1,3 +1,4 @@
+import "./style.sass"
 import { camera, gui, orbit, renderer, scene } from "./setup"
 import { initiateState } from "./state"
 import { initClearPlane } from "./clear"
