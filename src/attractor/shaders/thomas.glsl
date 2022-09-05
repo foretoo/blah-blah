@@ -5,7 +5,7 @@ uniform float tb;
 
 uniform sampler2D positionTexture;
 
-#include ../../shared/rough;
+#include ../../shared/rough3D;
 
 void main() {
   vec2 reference = gl_FragCoord.xy / resolution.xy;

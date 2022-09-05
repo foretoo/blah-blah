@@ -1,9 +1,5 @@
 #include random;
 
-float rough (vec2 st) {
-  return (random(st) - 0.5) * 2.0;
-}
-
 vec3 rough3D (vec3 point) {
   float u = random(point.xy);
   float v = random(point.yz);

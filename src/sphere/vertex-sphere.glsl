@@ -5,7 +5,7 @@ uniform float noiseScale;
 uniform float roughness;
 
 #include ../shared/cnoise;
-#include ../shared/rough;
+#include ../shared/rough3D;
 
 const float PI = 3.14159265;
 
