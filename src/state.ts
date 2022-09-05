@@ -20,11 +20,12 @@ export const initiateState = () => {
     const spheres: IShereStorage = JSON.parse(spheresRaw)
 
     for (const id in spheres) {
-      const { seed, dotSize, sphereScale, noiseScale, roughness } = spheres[id]
+      const { seed, dotSize, color, sphereScale, noiseScale, roughness } = spheres[id]
       spheresUpdate.push(
         initSphere(
           seed,
           dotSize.value,
+          color.value,
           sphereScale.value,
           noiseScale.value,
           roughness.value,
@@ -45,6 +46,7 @@ export const initiateState = () => {
       const outerAttractorProps: IOuterAttractorProps = {
         seed: attractors[id].seed,
         dotSize: attractors[id].dotSize.value,
+        color: attractors[id].color.value,
         attractorScale: attractors[id].attractorScale.value,
         noiseStrength: attractors[id].noiseStrength.value,
         noiseScale: attractors[id].noiseScale.value,

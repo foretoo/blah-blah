@@ -37,11 +37,14 @@ export const bindController = (
 
 
 
-  const { dotSize, attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
+  const { dotSize, color, attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
   const { vel, roughness } = gpgpuMaterial.uniforms
 
   attractorFolder.add(dotSize, "value", 0, 3, 0.01)
   .name("dots size")
+  .onChange(saveAttractor)
+  attractorFolder.add(color, "value", 0, 1, 0.01)
+  .name("color")
   .onChange(saveAttractor)
   attractorFolder.add(attractorScale, "value", 0.01, 5, 0.01)
   .name("attractor scale")
@@ -106,6 +109,7 @@ export const bindController = (
     seed,
     name,
     dotSize,
+    color,
     attractorScale,
     noiseStrength,
     noiseScale,

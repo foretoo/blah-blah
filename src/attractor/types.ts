@@ -25,6 +25,7 @@ export type IControlledAttractor =  {
   seed: number
   name: IAttractorName
   dotSize: U
+  color: U
   attractorScale: U
   noiseStrength: U
   noiseScale: U
