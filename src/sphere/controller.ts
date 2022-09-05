@@ -44,7 +44,7 @@ export const bindController = (
 
   const { dotSize, sphereScale, noiseScale, roughness } = sphere.material.uniforms
 
-  sphereFolder.add(dotSize, "value", 0, 5, 0.01).name("dot size")
+  sphereFolder.add(dotSize, "value", 0, 3, 0.01).name("dot size")
   .onChange(saveShere)
 
   sphereFolder.add(sphereScale, "value", 0.01, 5, 0.01).name("sphere scale")
