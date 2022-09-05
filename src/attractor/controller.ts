@@ -19,7 +19,7 @@ const locateAttractors = () => {
 
 
 
-export const bindGUI = (
+export const bindController = (
   gpgpuMaterial: ShaderMaterial,
   attractorMesh: Points<BufferGeometry, ShaderMaterial>,
   seed: number,

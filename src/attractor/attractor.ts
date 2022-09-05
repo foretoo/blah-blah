@@ -1,12 +1,13 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
+import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
 import { scene } from "../setup"
-import { getCustomGPGPU } from "./custom-gpgpu"
 import { spherePointsAmount } from "../shared"
+import { getCustomGPGPU } from "./custom-gpgpu"
+import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
-import { bindGUI } from "./controller"
-import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
+
 
 
 
@@ -93,7 +94,7 @@ export const initAttractor = (
 
 
   const attractor = new Points(geometry, material)
-  bindGUI(gpgpuMaterial, attractor, seed, name, id)
+  bindController(gpgpuMaterial, attractor, seed, name, id)
   scene.add(attractor)
 
 
