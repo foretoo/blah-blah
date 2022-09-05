@@ -26,14 +26,13 @@ const locateSpheres = () => {
 export const bindController = (
   sphere: Points<BufferGeometry, ShaderMaterial>,
   seed: number,
-  id?: string
+  id: string
 ) => {
 
   count++
   const sphereGUI = gui.addFolder(`sphere-${count}`)
-  const uuid = id || crypto.randomUUID()
   const saveShere = () => {
-    localStoredSpheres[uuid] = localStoredSphere
+    localStoredSpheres[id] = localStoredSphere
     locateSpheres()
   }
   
@@ -71,7 +70,7 @@ export const bindController = (
       scene.remove(sphere)
       sphereGUI.destroy()
 
-      delete localStoredSpheres[uuid]
+      delete localStoredSpheres[id]
       locateSpheres()
     }
   }, "remove" )

@@ -5,10 +5,15 @@ import { IShereStorage } from "./sphere/controller"
 
 
 
+type IUpdater = {
+  id: string
+  update: (t: number) => void
+}
+
 export const initiateState = () => {
 
-  const spheresUpdate: ((t: number) => void)[] = []
-  const attractorsUpdate: ((t: number) => void)[] = []
+  const spheresUpdate: IUpdater[] = []
+  const attractorsUpdate: IUpdater[] = []
 
   const spheresRaw = localStorage.getItem("blah-blah-spheres")
   if (spheresRaw) {

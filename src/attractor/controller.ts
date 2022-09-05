@@ -23,14 +23,13 @@ export const bindGUI = (
   attractorMesh: Points<BufferGeometry, ShaderMaterial>,
   seed: number,
   name: IAttractorName,
-  id?: string,
+  id: string,
 ) => {
 
   count++
   const attractorGUI = gui.addFolder(`attractor-${count}`)
-  const uuid = id || crypto.randomUUID()
   const saveAttractor = () => {
-    localStoredAttractors[uuid] = localStoredAttractor
+    localStoredAttractors[id] = localStoredAttractor
     locateAttractors()
   }
 
@@ -72,7 +71,7 @@ export const bindGUI = (
       gpgpuMaterial.fragmentShader = aizawaShader
     }
     gpgpuMaterial.needsUpdate = true
-    localStoredAttractors[uuid].name = curr
+    localStoredAttractors[id].name = curr
     saveAttractor()
   })
 
@@ -120,7 +119,7 @@ export const bindGUI = (
       scene.remove(attractorMesh)
       attractorGUI.destroy()
 
-      delete localStoredAttractors[uuid]
+      delete localStoredAttractors[id]
       locateAttractors()
     }
   }, "remove" )

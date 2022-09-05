@@ -30,8 +30,8 @@ const play = () => {
   t += 0.01
 
   gpuComputer.compute()
-  spheresUpdate.forEach((update) => update(t))
-  attractorsUpdate.forEach((update) => update(t))
+  spheresUpdate.forEach(({ update }) => update(t))
+  attractorsUpdate.forEach(({ update }) => update(t))
 
   orbit.update()
   renderer.render(scene, camera)

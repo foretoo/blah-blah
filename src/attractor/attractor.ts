@@ -35,7 +35,7 @@ const defaultInnerAttractorProps: Partial<IInnerAttractorProps> = {
 export const initAttractor = (
   outerAttractorProps = defaultOuterAttractorProps,
   innerAttractorProps = defaultInnerAttractorProps,
-  id?: string
+  id = crypto.randomUUID(),
 ) => {
 
   const {
@@ -98,8 +98,11 @@ export const initAttractor = (
 
 
 
-  return (t: number) => {
-    material.uniforms.time.value = t
-    material.uniforms.positionTexture.value = gpgpuCompute()
+  return {
+    id,
+    update: (t: number) => {
+      material.uniforms.time.value = t
+      material.uniforms.positionTexture.value = gpgpuCompute()
+    }
   }
 }

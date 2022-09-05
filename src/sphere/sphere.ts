@@ -17,7 +17,7 @@ export const initSphere = (
   sphereScale = 1,
   noiseScale = 0.2,
   roughness = 0,
-  id?: string,
+  id = crypto.randomUUID(),
 ) => {
 
   const material = new ShaderMaterial({
@@ -39,9 +39,8 @@ export const initSphere = (
   bindController(sphere, seed, id)
   scene.add(sphere)
 
-  return (
-    t: number,
-  ) => {
-    material.uniforms.time.value = t
+  return {
+    id,
+    update: (t: number) => material.uniforms.time.value = t
   }
 }
