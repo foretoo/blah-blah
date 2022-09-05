@@ -3,5 +3,5 @@ float random (vec2 st) {
 }
 
 float rough (vec2 st) {
-  return roughness * 0.05 * sign(random(st) - 0.5);
+  return (random(st) - 0.5) * 2.0;
 }
