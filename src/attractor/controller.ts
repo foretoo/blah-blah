@@ -28,7 +28,8 @@ export const bindController = (
 ) => {
 
   count++
-  const attractorGUI = gui.addFolder(`attractor-${count}`)
+  const attractorFolder = gui.addFolder(`attractor-${count}`)
+  attractorFolder.close()
   const saveAttractor = () => {
     localStoredAttractors[id] = localStoredAttractor
     locateAttractors()
@@ -39,25 +40,25 @@ export const bindController = (
   const { attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
   const { vel, roughness } = gpgpuMaterial.uniforms
 
-  attractorGUI.add(attractorScale, "value", 0.01, 5, 0.01)
+  attractorFolder.add(attractorScale, "value", 0.01, 5, 0.01)
   .name("attractor scale")
   .onChange(saveAttractor)
-  attractorGUI.add(noiseStrength, "value", 0, 1, 0.01)
+  attractorFolder.add(noiseStrength, "value", 0, 1, 0.01)
   .name("noise strength")
   .onChange(saveAttractor)
-  attractorGUI.add(noiseScale, "value", 0.001, 0.382, 0.001)
+  attractorFolder.add(noiseScale, "value", 0.001, 0.382, 0.001)
   .name("noise scale")
   .onChange(saveAttractor)
-  attractorGUI.add(roughness, "value", 0, 1, 0.01)
+  attractorFolder.add(roughness, "value", 0, 1, 0.01)
   .name("roughness")
   .onChange(saveAttractor)
-  attractorGUI.add(vel, "value", 0, 3, 0.01)
+  attractorFolder.add(vel, "value", 0, 3, 0.01)
   .name("vel")
   .onChange(saveAttractor)
 
 
 
-  attractorGUI
+  attractorFolder
   .add({ name }, "name", attractorsList)
   .name("attractor")
   .onChange((curr: IAttractorName) => {
@@ -76,9 +77,9 @@ export const bindController = (
     saveAttractor()
   })
 
-  const aizawaFolder = attractorGUI.addFolder(`aizawa`)
+  const aizawaFolder = attractorFolder.addFolder(`aizawa`)
   aizawaFolder.open()
-  const thomasFolder = attractorGUI.addFolder(`thomas`)
+  const thomasFolder = attractorFolder.addFolder(`thomas`)
   thomasFolder.hide()
   thomasFolder.open()
 
@@ -112,7 +113,7 @@ export const bindController = (
 
 
 
-  attractorGUI.add({
+  attractorFolder.add({
     remove: () => {
       attractorsUpdate.filter((attractor) => attractor.id !== id)
       
@@ -120,7 +121,7 @@ export const bindController = (
       attractorMesh.geometry.dispose()
       attractorMesh.material.dispose()
       scene.remove(attractorMesh)
-      attractorGUI.destroy()
+      attractorFolder.destroy()
 
       delete localStoredAttractors[id]
       locateAttractors()

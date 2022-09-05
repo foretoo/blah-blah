@@ -31,7 +31,8 @@ export const bindController = (
 ) => {
 
   count++
-  const sphereGUI = gui.addFolder(`sphere-${count}`)
+  const sphereFolder = gui.addFolder(`sphere-${count}`)
+  sphereFolder.close()
   const saveShere = () => {
     localStoredSpheres[id] = localStoredSphere
     locateSpheres()
@@ -42,13 +43,13 @@ export const bindController = (
 
   const { sphereScale, noiseScale, roughness } = sphere.material.uniforms
 
-  sphereGUI.add(sphereScale, "value", 0.01, 2, 0.01).name("sphere scale")
+  sphereFolder.add(sphereScale, "value", 0.01, 5, 0.01).name("sphere scale")
   .onChange(saveShere)
 
-  sphereGUI.add(noiseScale, "value", 0.01, 1, 0.01).name("noise scale")
+  sphereFolder.add(noiseScale, "value", 0.01, 1, 0.01).name("noise scale")
   .onChange(saveShere)
 
-  sphereGUI.add(roughness, "value", 0, 1, 0.01).name("roughness")
+  sphereFolder.add(roughness, "value", 0, 1, 0.01).name("roughness")
   .onChange(saveShere)
 
 
@@ -64,14 +65,14 @@ export const bindController = (
 
 
 
-  sphereGUI.add({
+  sphereFolder.add({
     remove: () => {
       spheresUpdate.filter((sphere) => sphere.id !== id)
       
       sphere.geometry.dispose()
       sphere.material.dispose()
       scene.remove(sphere)
-      sphereGUI.destroy()
+      sphereFolder.destroy()
 
       delete localStoredSpheres[id]
       locateSpheres()
