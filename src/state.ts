@@ -10,10 +10,10 @@ type IUpdater = {
   update: (t: number) => void
 }
 
-export const initiateState = () => {
+export const spheresUpdate: IUpdater[] = []
+export const attractorsUpdate: IUpdater[] = []
 
-  const spheresUpdate: IUpdater[] = []
-  const attractorsUpdate: IUpdater[] = []
+export const initiateState = () => {
 
   const spheresRaw = localStorage.getItem("blah-blah-spheres")
   if (spheresRaw) {
@@ -70,7 +70,5 @@ export const initiateState = () => {
       )
     }
   }
-
-  return { spheresUpdate, attractorsUpdate }
 
 }
