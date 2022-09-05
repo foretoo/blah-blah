@@ -21,10 +21,13 @@ void main() {
   float v = vel / 100.0;
 
   vec3 next = vec3(
-    x + v * ((z - ab) * x - ad * y) + rough(prev.xy),
-    y + v * (ad * x + (z - ab) * y) + rough(prev.yz),
-    z + v * (ac + aa * z - z * z * z / 3.0 - (x * x + y * y) * (1.0 + ae * z) + af * z * x * x * x) + rough(prev.zx)
+    x + v * ((z - ab) * x - ad * y),
+    y + v * (ad * x + (z - ab) * y),
+    z + v * (ac + aa * z - z * z * z / 3.0 - (x * x + y * y) * (1.0 + ae * z) + af * z * x * x * x)
   );
+  next.x += rough(next.xy) * roughness * 0.1;
+  next.y += rough(next.yz) * roughness * 0.1;
+  next.z += rough(next.zx) * roughness * 0.1;
 
   gl_FragColor = vec4(next, 1.0);
 }
