@@ -1,6 +1,6 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
-import { getGPGPU } from "./gpgpu"
+import { getCustomGPGPU } from "./custom-gpgpu"
 import { spherePointsAmount } from "../shared"
 
 import vertexShader from "./shaders/vertex.glsl"
@@ -58,7 +58,7 @@ export const initAttractor = (
     af = 0,
   } = innerAttractorProps
 
-  const { gpgpuMaterial, gpgpuCompute } = getGPGPU(name, vel, roughness, tb, aa, ab, ac, ad, ae, af)
+  const { gpgpuMaterial, gpgpuCompute } = getCustomGPGPU(name, vel, roughness, tb, aa, ab, ac, ad, ae, af)
 
 
   
