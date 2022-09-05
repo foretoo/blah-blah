@@ -5,6 +5,8 @@ uniform float noiseScale;
 uniform float roughness;
 
 #include ../shared/cnoise;
+#include ../shared/rough;
+
 const float PI = 3.14159265;
 
 
@@ -13,7 +15,11 @@ void main() {
 
   float t = time * 0.15 + seed * 10.0;
 
-  vec3 cpos = cnoise(position * noiseScale + t) * sphereScale;
+  vec3 rpos = rough3D(position);
+  float rlen = length(rpos);
+  rpos *= rlen * roughness;
+
+  vec3 cpos = cnoise((position + rpos) * noiseScale + t) * sphereScale;
 
   // float n = snoise(position + t) * 0.5 + 0.5;
   // vec3 pos = mix(position, cpos, 1.0 - n * 0.1);
