@@ -18,9 +18,7 @@ void main() {
     prev.y + v * (sin(prev.z) - tb * prev.y),
     prev.z + v * (sin(prev.x) - tb * prev.z)
   );
-  next.x += rough(next.xy) * roughness * 0.1;
-  next.y += rough(next.yz) * roughness * 0.1;
-  next.z += rough(next.zx) * roughness * 0.1;
+  next += rough3D(next) * roughness * 0.333;
 
   gl_FragColor = vec4(next, 1.0);
 }

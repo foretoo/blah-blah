@@ -25,9 +25,7 @@ void main() {
     y + v * (ad * x + (z - ab) * y),
     z + v * (ac + aa * z - z * z * z / 3.0 - (x * x + y * y) * (1.0 + ae * z) + af * z * x * x * x)
   );
-  next.x += rough(next.xy) * roughness * 0.1;
-  next.y += rough(next.yz) * roughness * 0.1;
-  next.z += rough(next.zx) * roughness * 0.1;
+  next += rough3D(next) * roughness * 0.333;
 
   gl_FragColor = vec4(next, 1.0);
 }
