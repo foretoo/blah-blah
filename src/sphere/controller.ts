@@ -1,4 +1,5 @@
 import { BufferGeometry, IUniform, Points, ShaderMaterial } from "three"
+import { spheresUpdate } from "../state"
 import { gui, scene } from "../setup"
 
 
@@ -65,6 +66,8 @@ export const bindController = (
 
   sphereGUI.add({
     remove: () => {
+      spheresUpdate.filter((sphere) => sphere.id !== id)
+      
       sphere.geometry.dispose()
       sphere.material.dispose()
       scene.remove(sphere)

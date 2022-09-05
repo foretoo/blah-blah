@@ -1,5 +1,6 @@
 import { BufferGeometry, Points, ShaderMaterial } from "three"
 import { gui, scene } from "../setup"
+import { attractorsUpdate } from "../state"
 import aizawaShader from "./shaders/aizawa.glsl"
 import thomasShader from "./shaders/thomas.glsl"
 import { IAttractorName, IAttractorStorage, IControlledAttractor } from "./types"
@@ -113,6 +114,8 @@ export const bindGUI = (
 
   attractorGUI.add({
     remove: () => {
+      attractorsUpdate.filter((attractor) => attractor.id !== id)
+      
       gpgpuMaterial.dispose()
       attractorMesh.geometry.dispose()
       attractorMesh.material.dispose()
