@@ -4,8 +4,9 @@ public:
 todos:
 
 - 🍚 ***add*** — sphere roughness
+- 🤌 ***add*** — ui inputs for dots sizes and color transparency
 - 💨 ***feature*** — pointer response
-- 🧃 ***feature*** — colored fields inside a dots shape
+- 🧃 ***feature*** — colored fields inside a shape
 
 done:
 
