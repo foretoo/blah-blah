@@ -17,6 +17,7 @@ const side = Math.sqrt(spherePointsAmount)
 
 
 const defaultOuterAttractorProps: Partial<IOuterAttractorProps> = {
+  dotSize: 2,
   attractorScale: 1,
   noiseStrength: 1,
   noiseScale: 0.2,
@@ -41,6 +42,7 @@ export const initAttractor = (
 
   const {
     seed = Math.random() * 123,
+    dotSize = 2,
     attractorScale = 2,
     noiseStrength = 0,
     noiseScale = 0.2,
@@ -68,6 +70,7 @@ export const initAttractor = (
       seed: { value: seed },
       time: { value: 0 },
 
+      dotSize: { value: dotSize },
       attractorScale: { value: attractorScale },
       noiseStrength: { value: noiseStrength },
       noiseScale: { value: noiseScale },

@@ -2,6 +2,7 @@ import { IUniform } from "three"
 
 export type IOuterAttractorProps = {
   seed?: number
+  dotSize: number
   attractorScale: number
   noiseStrength: number
   noiseScale: number
@@ -32,14 +33,15 @@ export type IControlledAttractor =  {
 export interface IAttractorStorage { [id: string]: IControlledAttractor }
 
 export interface IUniforms { [uniform: string]: IUniform<any> }
+
 export interface IGPGPUUniforms extends IUniforms {
-  vel: IUniform<number>
-  roughness: IUniform<number>
-  tb: IUniform<number>
-  aa: IUniform<number>
-  ab: IUniform<number>
-  ac: IUniform<number>
-  ad: IUniform<number>
-  ae: IUniform<number>
-  af: IUniform<number>
+  vel: U
+  roughness: U
+  tb: U
+  aa: U
+  ab: U
+  ac: U
+  ad: U
+  ae: U
+  af: U
 }

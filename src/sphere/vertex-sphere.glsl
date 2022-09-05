@@ -1,5 +1,6 @@
 uniform float time;
 uniform float seed;
+uniform float dotSize;
 uniform float sphereScale;
 uniform float noiseScale;
 uniform float roughness;
@@ -27,6 +28,6 @@ void main() {
   vec4 mvPos = modelViewMatrix * vec4(cpos, 1.0);
   gl_Position = projectionMatrix * mvPos;
 
-  gl_PointSize = 1.0;
+  gl_PointSize = dotSize;
   // gl_PointSize = cos(abs(mvPos.z * PI / 2.0)) * 2.0;
 }
