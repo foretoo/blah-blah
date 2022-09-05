@@ -3,6 +3,7 @@ import { IUniform } from "three"
 export type IOuterAttractorProps = {
   seed?: number
   dotSize: number
+  color: number
   attractorScale: number
   noiseStrength: number
   noiseScale: number

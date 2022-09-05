@@ -15,6 +15,7 @@ sphereGeometry.setAttribute("position", new BufferAttribute(spherePositions, 3))
 export const initSphere = (
   seed = Math.random() * 123,
   dotSize = 2,
+  color = 0.5,
   sphereScale = 1,
   noiseScale = 0.2,
   roughness = 0,
@@ -27,6 +28,7 @@ export const initSphere = (
       seed: { value: seed },
 
       dotSize: { value: dotSize },
+      color: { value: color },
       sphereScale: { value: sphereScale },
       noiseScale: { value: noiseScale },
       roughness: { value: roughness }
