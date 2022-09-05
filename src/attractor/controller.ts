@@ -37,9 +37,12 @@ export const bindController = (
 
 
 
-  const { attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
+  const { dotSize, attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
   const { vel, roughness } = gpgpuMaterial.uniforms
 
+  attractorFolder.add(dotSize, "value", 0, 5, 0.01)
+  .name("dots size")
+  .onChange(saveAttractor)
   attractorFolder.add(attractorScale, "value", 0.01, 5, 0.01)
   .name("attractor scale")
   .onChange(saveAttractor)
@@ -73,7 +76,7 @@ export const bindController = (
       gpgpuMaterial.fragmentShader = aizawaShader
     }
     gpgpuMaterial.needsUpdate = true
-    localStoredAttractors[id].name = curr
+    localStoredAttractor.name = curr
     saveAttractor()
   })
 
@@ -102,6 +105,7 @@ export const bindController = (
     type: "attractor",
     seed,
     name,
+    dotSize,
     attractorScale,
     noiseStrength,
     noiseScale,

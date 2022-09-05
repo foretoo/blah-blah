@@ -23,6 +23,7 @@ export type IControlledAttractor =  {
   type: "attractor"
   seed: number
   name: IAttractorName
+  dotSize: U
   attractorScale: U
   noiseStrength: U
   noiseScale: U
@@ -35,6 +36,7 @@ export interface IAttractorStorage { [id: string]: IControlledAttractor }
 export interface IUniforms { [uniform: string]: IUniform<any> }
 
 export interface IGPGPUUniforms extends IUniforms {
+  dotSize: U
   vel: U
   roughness: U
   tb: U

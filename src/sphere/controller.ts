@@ -9,6 +9,7 @@ let count = 0
 export interface IControlledSphere {
   type: "sphere"
   seed: number
+  dotSize: IUniform<number>
   sphereScale: IUniform<number>
   noiseScale: IUniform<number>
   roughness: IUniform<number>
@@ -41,7 +42,10 @@ export const bindController = (
 
 
 
-  const { sphereScale, noiseScale, roughness } = sphere.material.uniforms
+  const { dotSize, sphereScale, noiseScale, roughness } = sphere.material.uniforms
+
+  sphereFolder.add(dotSize, "value", 0, 5, 0.01).name("dot size")
+  .onChange(saveShere)
 
   sphereFolder.add(sphereScale, "value", 0.01, 5, 0.01).name("sphere scale")
   .onChange(saveShere)
@@ -57,6 +61,7 @@ export const bindController = (
   const localStoredSphere: IControlledSphere = {
     type: "sphere",
     seed,
+    dotSize,
     sphereScale,
     noiseScale,
     roughness
