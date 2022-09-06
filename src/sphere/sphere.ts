@@ -18,7 +18,7 @@ export const initSphere = (
   color = 0.5,
   sphereScale = 1,
   noiseScale = 0.25,
-  roughness = 0,
+  roughness = 0.2,
   id = crypto.randomUUID(),
 ) => {
 
