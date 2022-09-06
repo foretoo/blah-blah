@@ -1,16 +1,19 @@
 import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from "three"
 import { camera, gui, orbit, renderer, scene } from "./setup"
+import { getClearPlaneState } from "./state"
 
 
 
 renderer.autoClearColor = false
+
+const { trailValue, saveTrail } = getClearPlaneState()
 
 const clearPlane = new Mesh(
   new PlaneBufferGeometry(2, 2),
   new MeshBasicMaterial({
     color: 0xfffffff,
     transparent: true,
-    opacity: 0.3
+    opacity: trailValue || 0.3
   })
 )
 clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
@@ -19,7 +22,9 @@ clearPlane.renderOrder = -1
 
 
 
-gui.add(clearPlane.material, "opacity", 0, 1, 0.1).name("clear trail")
+gui.add(clearPlane.material, "opacity", 0, 1, 0.1)
+.name("clear trail")
+.onChange((value: number) => saveTrail(value))
 
 
 
