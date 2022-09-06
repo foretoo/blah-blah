@@ -1,5 +1,5 @@
 import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from "three"
-import { camera, renderer, scene } from "./setup"
+import { camera, gui, renderer, scene } from "./setup"
 
 
 
@@ -10,11 +10,13 @@ const clearPlane = new Mesh(
   new MeshBasicMaterial({
     color: 0xfffffff,
     transparent: true,
-    opacity: 0.333
+    opacity: 0.3
   })
 )
 
 clearPlane.renderOrder = -1
+
+gui.add(clearPlane.material, "opacity", 0, 1, 0.1).name("clear trail")
 
 
 
