@@ -7,6 +7,8 @@ import { initSphere } from "./sphere"
 
 
 
+camera.position.set(1, 5, 10)
+
 gui.add({
   "add sphere": () => spheresUpdate.push(initSphere())
 },"add sphere")
@@ -14,13 +16,9 @@ gui.add({
   "add attractor": () => attractorsUpdate.push(initAttractor())
 },"add attractor")
 
-initiateState()
-
-
-
 initClearPlane()
-camera.position.set(0, 0, 12)
 
+initiateState()
 
 
 let t = 0

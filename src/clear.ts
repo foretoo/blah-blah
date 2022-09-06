@@ -1,39 +1,35 @@
 import { Mesh, MeshBasicMaterial, PlaneBufferGeometry } from "three"
-import { camera, orbit, renderer, scene } from "./setup"
+import { camera, renderer, scene } from "./setup"
 
 
+
+renderer.autoClearColor = false
 
 const clearPlane = new Mesh(
   new PlaneBufferGeometry(),
   new MeshBasicMaterial({
-    color: 0xffffff,
+    color: 0xfffffff,
     transparent: true,
     opacity: 0.333
   })
 )
-clearPlane.position.z = -5
+
 clearPlane.renderOrder = -1
 
 
 
-let fov = (camera.fov * Math.PI) / 180
-
-function stickToCamera() {
-  const distance = clearPlane.position.distanceTo(camera.position)
-  const height = 2 * Math.tan(fov / 2) * distance
-  const width = height * camera.aspect
-  clearPlane.scale.set(width * 100, height * 100, 1)
-  clearPlane.lookAt(scene.position)
-}
-stickToCamera()
-
-orbit.noPan = true
-orbit.addEventListener("change", stickToCamera)
-addEventListener("resize", stickToCamera)
-renderer.autoClearColor = false
-
-
-
 export const initClearPlane = () => {
-  scene.add(clearPlane)
+  
+  const distance = camera.position.distanceTo(scene.position) * 2
+  clearPlane.position.z = -1 * distance
+  
+  const fov = (camera.fov * Math.PI) / 180
+  const planeHeight = 2 * Math.tan(fov / 2) * distance
+  clearPlane.scale.set(planeHeight * camera.aspect, planeHeight, 1)
+  
+  addEventListener("resize", () => {
+    clearPlane.scale.set(planeHeight * camera.aspect, planeHeight, 1)
+  })
+
+  camera.add(clearPlane)
 }
