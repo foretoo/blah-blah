@@ -1,4 +1,4 @@
-import { Color, PerspectiveCamera, Scene, WebGLRenderer } from "three"
+import { Color, OrthographicCamera, Scene, WebGLRenderer } from "three"
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls"
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js"
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer"
@@ -17,11 +17,16 @@ export const scene = new Scene()
 scene.background = new Color("#fff")
 
 // Camera
-export const camera = new PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100)
+const aspect = innerWidth / innerHeight
+export const camera = new OrthographicCamera(-1 * aspect, aspect, 1, -1, 0.1, 100)
+camera.zoom = 0.25
+camera.updateProjectionMatrix()
 scene.add(camera)
 
 // Orbit
 export const orbit = new TrackballControls(camera, canvas)
+orbit.staticMoving = true
+orbit.maxDistance = 10
 
 // Renderer
 export const renderer = new WebGLRenderer({
@@ -32,7 +37,9 @@ renderer.setSize(innerWidth, innerHeight)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 addEventListener("resize", () => {
-  camera.aspect = innerWidth / innerHeight
+  const aspect = innerWidth / innerHeight
+  camera.left = -1 * aspect
+  camera.right = aspect
   camera.updateProjectionMatrix()
   renderer.setSize(innerWidth, innerHeight)  
 })
