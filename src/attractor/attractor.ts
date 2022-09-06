@@ -45,8 +45,8 @@ export const initAttractor = (
     seed = Math.random() * 123,
     dotSize = 2,
     color = 0.5,
-    attractorScale = 2,
-    noiseStrength = 0,
+    attractorScale = 1,
+    noiseStrength = 1,
     noiseScale = 0.2,
   } = outerAttractorProps
 
@@ -83,6 +83,7 @@ export const initAttractor = (
     vertexShader,
     fragmentShader,
     transparent: true,
+    depthWrite: false,
   })
 
 

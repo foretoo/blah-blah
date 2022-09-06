@@ -14,10 +14,10 @@ sphereGeometry.setAttribute("position", new BufferAttribute(spherePositions, 3))
 
 export const initSphere = (
   seed = Math.random() * 123,
-  dotSize = 2,
+  dotSize = 1,
   color = 0.5,
   sphereScale = 1,
-  noiseScale = 0.2,
+  noiseScale = 0.25,
   roughness = 0,
   id = crypto.randomUUID(),
 ) => {
@@ -36,6 +36,7 @@ export const initSphere = (
     vertexShader,
     fragmentShader,
     transparent: true,
+    depthWrite: false,
   })
 
   const sphere = new Points(sphereGeometry, material)
