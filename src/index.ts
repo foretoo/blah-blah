@@ -25,7 +25,6 @@ let t = 0
 const play = () => {
   t += 0.01
 
-  gpuComputer.compute()
   spheresUpdate.forEach((sphere) => sphere.update(t))
   attractorsUpdate.forEach((attractor) => attractor.update(t))
 
