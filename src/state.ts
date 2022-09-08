@@ -24,11 +24,11 @@ export const initiateState = () => {
       spheresUpdate.push(
         initSphere(
           seed,
-          dotSize.value,
-          color.value,
-          sphereScale.value,
-          noiseScale.value,
-          roughness.value,
+          dotSize?.value,
+          color?.value,
+          sphereScale?.value,
+          noiseScale?.value,
+          roughness?.value,
           id,
         )
       )
@@ -45,24 +45,24 @@ export const initiateState = () => {
       
       const outerAttractorProps: IOuterAttractorProps = {
         seed: attractors[id].seed,
-        dotSize: attractors[id].dotSize.value,
-        color: attractors[id].color.value,
-        attractorScale: attractors[id].attractorScale.value,
-        noiseStrength: attractors[id].noiseStrength.value,
-        noiseScale: attractors[id].noiseScale.value,
+        dotSize: attractors[id].dotSize?.value,
+        color: attractors[id].color?.value,
+        attractorScale: attractors[id].attractorScale?.value,
+        noiseStrength: attractors[id].noiseStrength?.value,
+        noiseScale: attractors[id].noiseScale?.value,
       }
 
       const innerAttractorProps: IInnerAttractorProps = {
         name: attractors[id].name,
-        roughness: attractors[id].roughness.value,
-        vel: attractors[id].vel.value,
-        tb: attractors[id].tb.value,
-        aa: attractors[id].aa.value,
-        ab: attractors[id].ab.value,
-        ac: attractors[id].ac.value,
-        ad: attractors[id].ad.value,
-        ae: attractors[id].ae.value,
-        af: attractors[id].af.value,
+        roughness: attractors[id].roughness?.value,
+        vel: attractors[id].vel?.value,
+        tb: attractors[id].tb?.value,
+        aa: attractors[id].aa?.value,
+        ab: attractors[id].ab?.value,
+        ac: attractors[id].ac?.value,
+        ad: attractors[id].ad?.value,
+        ae: attractors[id].ae?.value,
+        af: attractors[id].af?.value,
       }
 
       attractorsUpdate.push(
