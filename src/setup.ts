@@ -1,7 +1,7 @@
 import { Color, OrthographicCamera, Scene, WebGLRenderer } from "three"
 import { TrackballControls } from "three/examples/jsm/controls/TrackballControls"
-import GUI from "three/examples/jsm/libs/lil-gui.module.min.js"
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer"
+import GUI from "three/examples/jsm/libs/lil-gui.module.min.js"
 import { spherePointsAmount } from "./shared"
 
 
@@ -26,7 +26,8 @@ scene.add(camera)
 // Orbit
 export const orbit = new TrackballControls(camera, canvas)
 orbit.staticMoving = true
-orbit.maxDistance = 10
+orbit.noPan = true
+orbit.noZoom = true
 
 // Renderer
 export const renderer = new WebGLRenderer({
@@ -41,7 +42,7 @@ addEventListener("resize", () => {
   camera.left = -1 * aspect
   camera.right = aspect
   camera.updateProjectionMatrix()
-  renderer.setSize(innerWidth, innerHeight)  
+  renderer.setSize(innerWidth, innerHeight)
 })
 
 // GPGPU
