@@ -1,13 +1,16 @@
 import "./style.sass"
-import { camera, gpuComputer, gui, orbit, renderer, scene } from "./setup"
+import { camera, gui, orbit, renderer, scene } from "./setup"
 import { attractorsUpdate, initiateState, spheresUpdate } from "./state"
 import { initClearPlane } from "./clear"
 import { initAttractor } from "./attractor"
 import { initSphere } from "./sphere"
+import { initiatePointer } from "./pointer"
 
 
 
 camera.position.set(1, 5, 10)
+
+const pointer = initiatePointer()
 
 gui.add({
   "add sphere": () => spheresUpdate.push(initSphere())
