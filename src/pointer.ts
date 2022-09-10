@@ -2,6 +2,8 @@ import { camera } from "./setup"
 
 
 
+export type Pointer = { x: number, y: number, z: number, d: number }
+
 export const initiatePointer = (
   x = 0,
   y = 0,
@@ -10,7 +12,7 @@ export const initiatePointer = (
 ) => {
 
   const prevPointer = { x, y, z }
-  const pointer = { x, y, z, d }
+  const pointer: Pointer = { x, y, z, d }
 
   addEventListener("pointermove", (e) => {
     pointer.x = (e.clientX / innerWidth  *  2 - 1) * camera.right * (1 / camera.zoom)

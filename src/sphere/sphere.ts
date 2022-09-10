@@ -1,9 +1,12 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
+import { Pointer } from "../pointer"
+
 import { bindController } from "./controller"
 import { initiateNoiseComputation } from "./gpu-noise"
 import { initiateResponseComputation } from "./gpu-response"
+
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
 
@@ -74,7 +77,7 @@ export const initSphere = (
     id,
     update: (
       t: number,
-      pointer: { x: number, y: number, z: number, d: number },
+      pointer: Pointer,
     ) => {
       const positionTexture = computePosition(t)
       material.uniforms.positionTexture.value = computeResponse(positionTexture, pointer)

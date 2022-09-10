@@ -1,5 +1,6 @@
 import { initAttractor } from "./attractor"
 import { IAttractorStorage, IInnerAttractorProps, IOuterAttractorProps } from "./attractor/types"
+import { Pointer } from "./pointer"
 import { initSphere } from "./sphere"
 import { IShereStorage } from "./sphere/controller"
 
@@ -9,7 +10,7 @@ type IUpdater = {
   id: string
   update: (
     t: number,
-    pointer: { x: number, y: number, z: number, d: number }
+    pointer: Pointer
   ) => void
 }
 

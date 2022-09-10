@@ -1,6 +1,7 @@
 import { NearestFilter, RepeatWrapping, Texture } from "three"
 import { gpuComputer } from "../setup"
 import { spherePointsAmount } from "../shared"
+import { Pointer } from "../pointer"
 import computeVelocityShader from "./shaders/compute-velocity.glsl"
 import computeResponseShader from "./shaders/compute-response.glsl"
 
@@ -50,7 +51,7 @@ const velocityTarget = Array(2).fill(null).map(() => (
 let i = 1
 return (
   positionTexture: Texture,
-  pointer: { x: number, y: number, z: number, d: number },
+  pointer: Pointer,
 ) => {
   i^=1
 
