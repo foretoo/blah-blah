@@ -27,7 +27,7 @@ for (let i = 0; i < amount; i++) {
 
 
 
-export const initiateAttractorPositionComputation = (
+export const initiateAttractorComputation = (
   name: IAttractorName,
   vel: number,
   roughness: number,

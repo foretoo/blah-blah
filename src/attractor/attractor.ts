@@ -2,8 +2,8 @@ import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
 import { scene } from "../setup"
 import { spherePointsAmount } from "../shared"
-import { initiateAttractorPositionComputation } from "./gpu-attractor-position"
-import { initiateNoiseComputation } from "./gpu-noise-position"
+import { initiateAttractorComputation } from "./gpu-attractor"
+import { initiateNoiseComputation } from "./gpu-noise"
 import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex.glsl"
@@ -64,7 +64,7 @@ export const initAttractor = (
     af = 0,
   } = innerAttractorProps
 
-  const { gpgpuMaterial, gpgpuCompute } = initiateAttractorPositionComputation(
+  const { gpgpuMaterial, gpgpuCompute } = initiateAttractorComputation(
     name, vel, roughness, tb, aa, ab, ac, ad, ae, af
   )
 
