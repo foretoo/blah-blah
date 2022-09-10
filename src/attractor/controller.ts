@@ -20,7 +20,7 @@ const locateAttractors = () => {
 
 
 export const bindController = (
-  gpgpuMaterial: ShaderMaterial,
+  attractorMaterial: ShaderMaterial,
   noiseMaterial: ShaderMaterial,
   attractorMesh: Points<BufferGeometry, ShaderMaterial>,
   seed: number,
@@ -40,7 +40,7 @@ export const bindController = (
 
   const { dotSize, color } = attractorMesh.material.uniforms
   const { attractorScale, noiseStrength, noiseScale } = noiseMaterial.uniforms
-  const { vel, roughness } = gpgpuMaterial.uniforms
+  const { vel, roughness } = attractorMaterial.uniforms
 
   attractorFolder.add(dotSize, "value", 0, 3, 0.01)
   .name("dots size")
@@ -73,14 +73,14 @@ export const bindController = (
     if (curr === "thomas") {
       aizawaFolder.hide()
       thomasFolder.show()
-      gpgpuMaterial.fragmentShader = thomasShader
+      attractorMaterial.fragmentShader = thomasShader
     }
     else if (curr === "aizawa") {
       aizawaFolder.show()
       thomasFolder.hide()
-      gpgpuMaterial.fragmentShader = aizawaShader
+      attractorMaterial.fragmentShader = aizawaShader
     }
-    gpgpuMaterial.needsUpdate = true
+    attractorMaterial.needsUpdate = true
     localStoredAttractor.name = curr
     saveAttractor()
   })
@@ -93,7 +93,7 @@ export const bindController = (
 
 
 
-  const { tb, aa, ab, ac, ad, ae, af } = gpgpuMaterial.uniforms
+  const { tb, aa, ab, ac, ad, ae, af } = attractorMaterial.uniforms
 
   thomasFolder.add(tb, "value", 0.12, 0.28, 0.01).name("b").onChange(saveAttractor)
 
@@ -127,7 +127,7 @@ export const bindController = (
     remove: () => {
       attractorsUpdate.filter((attractor) => attractor.id !== id)
       
-      gpgpuMaterial.dispose()
+      attractorMaterial.dispose()
       noiseMaterial.dispose()
       attractorMesh.geometry.dispose()
       attractorMesh.material.dispose()

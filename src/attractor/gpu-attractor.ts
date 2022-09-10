@@ -34,39 +34,39 @@ export const initiateAttractorComputation = (
   tb: number, aa: number, ab: number, ac: number, ad: number, ae: number, af: number
 ) => {
 
-  const positionTexture = gpuComputer.createTexture()
-  positionTexture.image.data.set(initialPositions)
+  const attractorTexture = gpuComputer.createTexture()
+  attractorTexture.image.data.set(initialPositions)
 
-  const gpgpuMaterial = gpuComputer.createShaderMaterial(
+  const attractorMaterial = gpuComputer.createShaderMaterial(
     shader[name],
-    { positionTexture: { value: positionTexture }}
+    { positionTexture: { value: attractorTexture }}
   )
 
-  gpgpuMaterial.uniforms.vel = { value: vel }
-  gpgpuMaterial.uniforms.roughness = { value: roughness }
+  attractorMaterial.uniforms.vel = { value: vel }
+  attractorMaterial.uniforms.roughness = { value: roughness }
 
-  gpgpuMaterial.uniforms.tb = { value: tb }
+  attractorMaterial.uniforms.tb = { value: tb }
 
-  gpgpuMaterial.uniforms.aa = { value: aa }
-  gpgpuMaterial.uniforms.ab = { value: ab }
-  gpgpuMaterial.uniforms.ac = { value: ac }
-  gpgpuMaterial.uniforms.ad = { value: ad }
-  gpgpuMaterial.uniforms.ae = { value: ae }
-  gpgpuMaterial.uniforms.af = { value: af }
+  attractorMaterial.uniforms.aa = { value: aa }
+  attractorMaterial.uniforms.ab = { value: ab }
+  attractorMaterial.uniforms.ac = { value: ac }
+  attractorMaterial.uniforms.ad = { value: ad }
+  attractorMaterial.uniforms.ae = { value: ae }
+  attractorMaterial.uniforms.af = { value: af }
 
 
 
-  const renderTarget = Array(2).fill(null).map(() => (
+  const attractorTarget = Array(2).fill(null).map(() => (
     gpuComputer.createRenderTarget(side, side, RepeatWrapping, RepeatWrapping, NearestFilter, NearestFilter)
   ))
 
   let i = 1
-  const gpgpuCompute = () => {
+  const computeAttractor = () => {
     i^=1
-    gpuComputer.doRenderTarget(gpgpuMaterial, renderTarget[i])
-    gpgpuMaterial.uniforms.positionTexture.value = renderTarget[i].texture
-    return renderTarget[i].texture
+    gpuComputer.doRenderTarget(attractorMaterial, attractorTarget[i])
+    attractorMaterial.uniforms.positionTexture.value = attractorTarget[i].texture
+    return attractorTarget[i].texture
   }
 
-  return { gpgpuMaterial, gpgpuCompute }
+  return [ attractorMaterial, computeAttractor ] as [ typeof attractorMaterial, typeof computeAttractor ]
 }

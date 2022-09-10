@@ -64,7 +64,7 @@ export const initAttractor = (
     af = 0,
   } = innerAttractorProps
 
-  const { gpgpuMaterial, gpgpuCompute } = initiateAttractorComputation(
+  const [ attractorMaterial, computeAttractor ] = initiateAttractorComputation(
     name, vel, roughness, tb, aa, ab, ac, ad, ae, af
   )
 
@@ -105,7 +105,7 @@ export const initAttractor = (
 
 
   const attractor = new Points(geometry, material)
-  bindController(gpgpuMaterial, noiseMaterial, attractor, seed, name, id)
+  bindController(attractorMaterial, noiseMaterial, attractor, seed, name, id)
   scene.add(attractor)
 
 
@@ -113,7 +113,7 @@ export const initAttractor = (
   return {
     id,
     update: (t: number) => {
-      const attractorPositionTexture = gpgpuCompute()
+      const attractorPositionTexture = computeAttractor()
       const noisePositionTexture = computeNoise(t, attractorPositionTexture)
       material.uniforms.positionTexture.value = noisePositionTexture
     }
