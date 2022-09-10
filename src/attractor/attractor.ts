@@ -5,8 +5,8 @@ import { spherePointsAmount } from "../shared"
 import { getCustomGPGPU } from "./gpu-attractor-position"
 import { bindController } from "./controller"
 
-import vertexShader from "./shaders/vertex-attractor.glsl"
-import fragmentShader from "./shaders/fragment-attractor.glsl"
+import vertexShader from "./shaders/vertex.glsl"
+import fragmentShader from "./shaders/fragment.glsl"
 
 
 
