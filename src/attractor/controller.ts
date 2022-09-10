@@ -21,6 +21,7 @@ const locateAttractors = () => {
 
 export const bindController = (
   gpgpuMaterial: ShaderMaterial,
+  noiseMaterial: ShaderMaterial,
   attractorMesh: Points<BufferGeometry, ShaderMaterial>,
   seed: number,
   name: IAttractorName,
@@ -37,7 +38,8 @@ export const bindController = (
 
 
 
-  const { dotSize, color, attractorScale, noiseStrength, noiseScale } = attractorMesh.material.uniforms
+  const { dotSize, color } = attractorMesh.material.uniforms
+  const { attractorScale, noiseStrength, noiseScale } = noiseMaterial.uniforms
   const { vel, roughness } = gpgpuMaterial.uniforms
 
   attractorFolder.add(dotSize, "value", 0, 3, 0.01)
@@ -126,6 +128,7 @@ export const bindController = (
       attractorsUpdate.filter((attractor) => attractor.id !== id)
       
       gpgpuMaterial.dispose()
+      noiseMaterial.dispose()
       attractorMesh.geometry.dispose()
       attractorMesh.material.dispose()
       scene.remove(attractorMesh)

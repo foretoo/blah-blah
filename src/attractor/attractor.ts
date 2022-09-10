@@ -3,6 +3,7 @@ import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
 import { scene } from "../setup"
 import { spherePointsAmount } from "../shared"
 import { initiateAttractorPositionComputation } from "./gpu-attractor-position"
+import { initiateNoiseComputation } from "./gpu-noise-position"
 import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex.glsl"
@@ -67,6 +68,10 @@ export const initAttractor = (
     name, vel, roughness, tb, aa, ab, ac, ad, ae, af
   )
 
+  const [ noiseMaterial, computeNoise ] = initiateNoiseComputation(
+    seed, attractorScale, noiseStrength, noiseScale
+  )
+
 
   
   const material = new ShaderMaterial({
@@ -76,9 +81,6 @@ export const initAttractor = (
 
       dotSize: { value: dotSize },
       color: { value: color },
-      attractorScale: { value: attractorScale },
-      noiseStrength: { value: noiseStrength },
-      noiseScale: { value: noiseScale },
 
       positionTexture: { value: null },
     },
@@ -103,7 +105,7 @@ export const initAttractor = (
 
 
   const attractor = new Points(geometry, material)
-  bindController(gpgpuMaterial, attractor, seed, name, id)
+  bindController(gpgpuMaterial, noiseMaterial, attractor, seed, name, id)
   scene.add(attractor)
 
 
@@ -111,8 +113,9 @@ export const initAttractor = (
   return {
     id,
     update: (t: number) => {
-      material.uniforms.time.value = t
-      material.uniforms.positionTexture.value = gpgpuCompute()
+      const attractorPositionTexture = gpgpuCompute()
+      const noisePositionTexture = computeNoise(t, attractorPositionTexture)
+      material.uniforms.positionTexture.value = noisePositionTexture
     }
   }
 }
