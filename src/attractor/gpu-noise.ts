@@ -1,5 +1,5 @@
-import { Matrix4, NearestFilter, RepeatWrapping, Texture } from "three"
-import { camera, gpuComputer } from "../setup"
+import { NearestFilter, RepeatWrapping, Texture } from "three"
+import { gpuComputer } from "../setup"
 import { spherePointsAmount } from "../shared"
 import computeNoiseShader from "./shaders/compute-noise.glsl"
 

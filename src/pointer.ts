@@ -20,7 +20,7 @@ export const initiatePointer = (
 
     const [ dx, dy ] = [ pointer.x - prevPointer.x, pointer.y - prevPointer.y ]
     pointer.d += Math.sqrt(dx ** 2 + dy ** 2)
-    
+
     prevPointer.x = pointer.x
     prevPointer.y = pointer.y
   })
