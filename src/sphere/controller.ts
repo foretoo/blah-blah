@@ -28,6 +28,7 @@ const locateSpheres = () => {
 
 export const bindController = (
   sphere: Points<BufferGeometry, ShaderMaterial>,
+  computeMaterial: ShaderMaterial,
   seed: number,
   id: string
 ) => {
@@ -43,7 +44,8 @@ export const bindController = (
 
 
 
-  const { dotSize, color, sphereScale, noiseScale, roughness } = sphere.material.uniforms
+  const { dotSize, color } = sphere.material.uniforms
+  const { sphereScale, noiseScale, roughness } = computeMaterial.uniforms
 
   sphereFolder.add(dotSize, "value", 0, 3, 0.01).name("dot size")
   .onChange(saveShere)

@@ -1,14 +1,27 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
-import { spherePositions } from "../shared"
+import { spherePointsAmount, spherePositions } from "../shared"
 import vertexShader from "./vertex-sphere.glsl"
 import fragmentShader from "./fragment-sphere.glsl"
 import { bindController } from "./controller"
+import { initiatePositionComputation } from "./sphere-gpu-position"
+import { initiateResponseComputation } from "./sphere-gpu-response"
 
 
 
 const sphereGeometry = new BufferGeometry()
 sphereGeometry.setAttribute("position", new BufferAttribute(spherePositions, 3))
+
+const amount = spherePointsAmount
+const side = Math.sqrt(amount)
+const ref = new Float32Array(amount * 2)
+
+for (let i = 0; i < amount; i++) {
+  ref[i * 2 + 0] =  (i % side) / side
+  ref[i * 2 + 1] = (i / side | 0) / side
+}
+
+sphereGeometry.setAttribute("ref", new BufferAttribute(ref, 2))
 
 
 
@@ -24,14 +37,9 @@ export const initSphere = (
 
   const material = new ShaderMaterial({
     uniforms: {
-      time: { value: 0 },
-      seed: { value: seed },
-
+      positionTexture: { value: null },
       dotSize: { value: dotSize },
       color: { value: color },
-      sphereScale: { value: sphereScale },
-      noiseScale: { value: noiseScale },
-      roughness: { value: roughness }
     },
     vertexShader,
     fragmentShader,
@@ -40,12 +48,36 @@ export const initSphere = (
   })
 
   const sphere = new Points(sphereGeometry, material)
-  
-  bindController(sphere, seed, id)
   scene.add(sphere)
+
+
+
+  const [ positionMaterial, computePosition ] = initiatePositionComputation(
+    seed,
+    sphereScale,
+    noiseScale,
+    roughness,
+    sphere.modelViewMatrix
+  )
+
+  const initialPositionTexture = computePosition(0)
+
+  const computeResponse = initiateResponseComputation(initialPositionTexture)
+
+  material.uniforms.positionTexture.value = initialPositionTexture
+
+
+
+  bindController(sphere, positionMaterial, seed, id)
 
   return {
     id,
-    update: (t: number) => material.uniforms.time.value = t
+    update: (
+      t: number,
+      pointer: { x: number, y: number, z: number, d: number },
+    ) => {
+      const positionTexture = computePosition(t)
+      material.uniforms.positionTexture.value = computeResponse(positionTexture, pointer)
+    }
   }
 }

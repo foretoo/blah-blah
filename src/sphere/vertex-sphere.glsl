@@ -1,33 +1,18 @@
-uniform float time;
-uniform float seed;
+attribute vec2 ref;
+
+uniform sampler2D positionTexture;
 uniform float dotSize;
-uniform float sphereScale;
-uniform float noiseScale;
-uniform float roughness;
-
-#include ../shared/cnoise;
-#include ../shared/rough3D;
-
-const float PI = 3.14159265;
 
 
 
 void main() {
 
-  float t = time * 0.15 + seed * 10.0;
+  vec4 pos = texture(positionTexture, ref);
 
-  vec3 rpos = rough3D(position);
-  float rlen = length(rpos);
-  rpos *= rlen * roughness;
+  vec4 mvPosition = modelViewMatrix * pos;
+  gl_Position = projectionMatrix * mvPosition;
 
-  vec3 cpos = cnoise((position + rpos) * noiseScale + t) * sphereScale;
-
-  // float n = snoise(position + t) * 0.5 + 0.5;
-  // vec3 pos = mix(position, cpos, 1.0 - n * 0.1);
-
-  vec4 mvPos = modelViewMatrix * vec4(cpos, 1.0);
-  gl_Position = projectionMatrix * mvPos;
+  // gl_Position = pos;
 
   gl_PointSize = dotSize;
-  // gl_PointSize = cos(abs(mvPos.z * PI / 2.0)) * 2.0;
 }
