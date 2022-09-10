@@ -7,7 +7,7 @@ import { IShereStorage } from "./sphere/controller"
 
 type IUpdater = {
   id: string
-  update: (t: number) => void
+  update: (t: number, pointer: { x: number, y: number, z: number, d: number }) => void
 }
 
 export const spheresUpdate: IUpdater[] = []

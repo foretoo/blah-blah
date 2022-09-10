@@ -27,9 +27,10 @@ initiateState()
 let t = 0
 const play = () => {
   t += 0.01
+  pointer.d *= 0.9
 
-  spheresUpdate.forEach((sphere) => sphere.update(t))
-  attractorsUpdate.forEach((attractor) => attractor.update(t))
+  spheresUpdate.forEach((sphere) => sphere.update(t, pointer))
+  attractorsUpdate.forEach((attractor) => attractor.update(t, pointer))
 
   orbit.update()
   renderer.render(scene, camera)
