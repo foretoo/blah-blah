@@ -2,7 +2,7 @@ import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
 import { bindController } from "./controller"
-import { initiatePositionComputation } from "./gpu-position"
+import { initiateNoiseComputation } from "./gpu-noise"
 import { initiateResponseComputation } from "./gpu-response"
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
@@ -52,7 +52,7 @@ export const initSphere = (
 
 
 
-  const [ positionMaterial, computePosition ] = initiatePositionComputation(
+  const [ positionMaterial, computePosition ] = initiateNoiseComputation(
     seed,
     sphereScale,
     noiseScale,

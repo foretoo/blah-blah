@@ -1,8 +1,8 @@
 import { NearestFilter, RepeatWrapping, Texture } from "three"
 import { gpuComputer } from "../setup"
 import { spherePointsAmount } from "../shared"
-import computeVelocityShader from "./shaders/compute-velocity.glsl"
-import computeResponseShader from "./shaders/compute-response.glsl"
+import computeVelocity from "./shaders/compute-velocity.glsl"
+import computeResPosition from "./shaders/compute-res-position.glsl"
 
 
 
@@ -18,9 +18,10 @@ export const initiateResponseComputation = (
 const vecPointer = new Float32Array(4)
 
 const velocityTexture = gpuComputer.createTexture()
+const responsedPositionTexture = gpuComputer.createTexture()
 
 const velocityMaterial = gpuComputer.createShaderMaterial(
-  computeVelocityShader,
+  computeVelocity,
   {
     positionTexture: { value: positionTexture },
     responsedPositionTexture: { value: positionTexture },
@@ -30,7 +31,7 @@ const velocityMaterial = gpuComputer.createShaderMaterial(
 )
 
 const responsedPositionMaterial = gpuComputer.createShaderMaterial(
-  computeResponseShader,
+  computeResPosition,
   {
     positionTexture: { value: positionTexture },
     responsedPositionTexture: { value: positionTexture },

@@ -1,7 +1,7 @@
 import { Matrix4, NearestFilter, RepeatWrapping } from "three"
 import { camera, gpuComputer } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
-import computePositionShader from "./shaders/compute-position.glsl"
+import computeNoiseShader from "./shaders/compute-noise.glsl"
 
 
 
@@ -10,7 +10,7 @@ const side = Math.sqrt(amount)
 
 
 
-export const initiatePositionComputation = (
+export const initiateNoiseComputation = (
   seed: number,
   sphereScale: number,
   noiseScale: number,
@@ -22,7 +22,7 @@ const positionTexture = gpuComputer.createTexture()
 positionTexture.image.data.set(spherePositions)
 
 const positionMaterial = gpuComputer.createShaderMaterial(
-  computePositionShader,
+  computeNoiseShader,
   {
     positionTexture: { value: positionTexture },
 
