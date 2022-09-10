@@ -37,10 +37,11 @@ const defaultInnerAttractorProps: Partial<IInnerAttractorProps> = {
   ae: 0,
   af: 0,
 }
+
 export const initAttractor = (
   outerAttractorProps = defaultOuterAttractorProps,
   innerAttractorProps = defaultInnerAttractorProps,
-  id = crypto.randomUUID(),
+  id = `${Math.random()}-${Math.random()}`,
 ) => {
 
   const {

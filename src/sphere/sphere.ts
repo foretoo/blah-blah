@@ -32,7 +32,7 @@ export const initSphere = (
   sphereScale = 1,
   noiseScale = 0.25,
   roughness = 0.2,
-  id = crypto.randomUUID(),
+  id = `${Math.random()}-${Math.random()}`,
 ) => {
 
   const material = new ShaderMaterial({
