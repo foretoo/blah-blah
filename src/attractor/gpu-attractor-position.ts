@@ -2,8 +2,8 @@ import { NearestFilter, RepeatWrapping } from "three"
 import { gpuComputer } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
 import { IAttractorName } from "./types"
-import aizawaShader from "./shaders/aizawa.glsl"
-import thomasShader from "./shaders/thomas.glsl"
+import aizawaShader from "./shaders/compute-aizawa.glsl"
+import thomasShader from "./shaders/compute-thomas.glsl"
 
 
 

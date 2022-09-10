@@ -1,8 +1,8 @@
 import { BufferGeometry, Points, ShaderMaterial } from "three"
 import { gui, scene } from "../setup"
 import { attractorsUpdate } from "../state"
-import aizawaShader from "./shaders/aizawa.glsl"
-import thomasShader from "./shaders/thomas.glsl"
+import aizawaShader from "./shaders/compute-aizawa.glsl"
+import thomasShader from "./shaders/compute-thomas.glsl"
 import { IAttractorName, IAttractorStorage, IControlledAttractor } from "./types"
 
 
