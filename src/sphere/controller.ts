@@ -40,7 +40,7 @@ export const bindController = (
     localStoredSpheres[id] = localStoredSphere
     locateSpheres()
   }
-  
+
 
 
 
