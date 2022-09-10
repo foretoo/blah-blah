@@ -27,7 +27,7 @@ for (let i = 0; i < amount; i++) {
 
 
 
-export const getCustomGPGPU = (
+export const initiateAttractorPositionComputation = (
   name: IAttractorName,
   vel: number,
   roughness: number,
