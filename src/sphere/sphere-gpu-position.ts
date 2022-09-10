@@ -1,7 +1,7 @@
 import { Matrix4, NearestFilter, RepeatWrapping } from "three"
 import { camera, gpuComputer } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
-import computePositionShader from "./compute-position.glsl"
+import computePositionShader from "./shaders/compute-position.glsl"
 
 
 

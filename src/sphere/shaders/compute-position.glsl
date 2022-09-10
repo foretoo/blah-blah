@@ -9,8 +9,8 @@ uniform float sphereScale;
 uniform float noiseScale;
 uniform float roughness;
 
-#include ../shared/cnoise;
-#include ../shared/rough3D;
+#include ../../shared/cnoise;
+#include ../../shared/rough3D;
 
 const float PI = 3.14159265359;
 

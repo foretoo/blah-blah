@@ -1,11 +1,11 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
-import vertexShader from "./vertex-sphere.glsl"
-import fragmentShader from "./fragment-sphere.glsl"
 import { bindController } from "./controller"
 import { initiatePositionComputation } from "./sphere-gpu-position"
 import { initiateResponseComputation } from "./sphere-gpu-response"
+import vertexShader from "./shaders/vertex.glsl"
+import fragmentShader from "./shaders/fragment.glsl"
 
 
 

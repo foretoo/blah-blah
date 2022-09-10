@@ -1,8 +1,8 @@
 import { NearestFilter, RepeatWrapping, Texture } from "three"
 import { gpuComputer } from "../setup"
-import { spherePointsAmount, spherePositions } from "../shared"
-import computeVelocity from "./compute-velocity.glsl"
-import computeResPosition from "./compute-res-position.glsl"
+import { spherePointsAmount } from "../shared"
+import computeVelocity from "./shaders/compute-velocity.glsl"
+import computeResPosition from "./shaders/compute-res-position.glsl"
 
 
 
