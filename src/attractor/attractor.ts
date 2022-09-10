@@ -8,6 +8,7 @@ import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
+import { initiateResponseComputation } from "./gpu-response"
 
 
 
@@ -67,10 +68,14 @@ export const initAttractor = (
   const [ attractorMaterial, computeAttractor ] = initiateAttractorComputation(
     name, vel, roughness, tb, aa, ab, ac, ad, ae, af
   )
+  const initialAttractorTexture = computeAttractor()
 
   const [ noiseMaterial, computeNoise ] = initiateNoiseComputation(
     seed, attractorScale, noiseStrength, noiseScale
   )
+  const initialNoiseTexture = computeNoise(0, initialAttractorTexture)
+
+  const computeResponse = initiateResponseComputation(initialNoiseTexture)
 
 
   
@@ -112,10 +117,14 @@ export const initAttractor = (
 
   return {
     id,
-    update: (t: number) => {
+    update: (
+      t: number,
+      pointer: { x: number, y: number, z: number, d: number },
+    ) => {
       const attractorPositionTexture = computeAttractor()
       const noisePositionTexture = computeNoise(t, attractorPositionTexture)
-      material.uniforms.positionTexture.value = noisePositionTexture
+      const responsedPositionTexture = computeResponse(noisePositionTexture, pointer)
+      material.uniforms.positionTexture.value = responsedPositionTexture
     }
   }
 }
