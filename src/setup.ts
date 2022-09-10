@@ -27,7 +27,7 @@ scene.add(camera)
 export const orbit = new TrackballControls(camera, canvas)
 orbit.staticMoving = true
 orbit.noPan = true
-orbit.noZoom = true
+// orbit.noZoom = true
 
 // Renderer
 export const renderer = new WebGLRenderer({
