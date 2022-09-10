@@ -2,7 +2,7 @@ import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
 import { scene } from "../setup"
 import { spherePointsAmount } from "../shared"
-import { getCustomGPGPU } from "./custom-gpgpu"
+import { getCustomGPGPU } from "./gpu-attractor-position"
 import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex-attractor.glsl"

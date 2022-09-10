@@ -56,15 +56,14 @@ export const getCustomGPGPU = (
 
 
 
-  let i = 1
-  const switchTarget = () => i^=1
-
   const renderTarget = Array(2).fill(null).map(() => (
     gpuComputer.createRenderTarget(side, side, RepeatWrapping, RepeatWrapping, NearestFilter, NearestFilter)
   ))
 
+  let i = 1
   const gpgpuCompute = () => {
-    gpuComputer.doRenderTarget(gpgpuMaterial, renderTarget[switchTarget()])
+    i^=1
+    gpuComputer.doRenderTarget(gpgpuMaterial, renderTarget[i])
     gpgpuMaterial.uniforms.positionTexture.value = renderTarget[i].texture
     return renderTarget[i].texture
   }
