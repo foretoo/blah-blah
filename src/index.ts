@@ -8,7 +8,7 @@ import { initiatePointer } from "./pointer"
 
 
 
-camera.position.set(1, 5, 10)
+camera.position.set(0, 0, 10)
 
 const [ pointer, prevPointer ] = initiatePointer()
 
