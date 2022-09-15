@@ -4,10 +4,10 @@ import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler"
 
 
 export const getRandomSurfacePointsBuffer = (
-  surface: BufferGeometry,
+  geometry: BufferGeometry,
   amount: number,
 ) => {
-  const sampler = new MeshSurfaceSampler(new Mesh(surface))
+  const sampler = new MeshSurfaceSampler(new Mesh(geometry))
   .setWeightAttribute(null)
   .build()
 
