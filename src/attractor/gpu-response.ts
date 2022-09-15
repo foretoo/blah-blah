@@ -1,7 +1,7 @@
 import { NearestFilter, RepeatWrapping, Texture } from "three"
 import { gpuComputer } from "../setup"
 import { spherePointsAmount } from "../shared"
-import { Pointer } from "../pointer"
+import { Pointer, PrevPointer } from "../pointer"
 import computeVelocityShader from "./shaders/compute-velocity.glsl"
 import computeResponseShader from "./shaders/compute-response.glsl"
 
@@ -17,6 +17,7 @@ export const initiateResponseComputation = (
 ) => {
 
 const vecPointer = new Float32Array(4)
+const vecPrevPointer = new Float32Array(3)
 
 const velocityTexture = gpuComputer.createTexture()
 
@@ -27,6 +28,7 @@ const velocityMaterial = gpuComputer.createShaderMaterial(
     responsedPositionTexture: { value: positionTexture },
     velocityTexture: { value: velocityTexture },
     pointer: { value: vecPointer },
+    prevPointer: { value: vecPrevPointer },
   }
 )
 
@@ -52,18 +54,20 @@ let i = 1
 return (
   positionTexture: Texture,
   pointer: Pointer,
+  prevPointer: PrevPointer
 ) => {
   i^=1
 
   velocityMaterial.uniforms.positionTexture.value = positionTexture
   responsedPositionMaterial.uniforms.positionTexture.value = positionTexture
 
-  vecPointer[0] = pointer.x
-  vecPointer[1] = pointer.y
-  vecPointer[2] = pointer.z
-  vecPointer[3] = pointer.d
+  vecPointer[0] = pointer.x; vecPrevPointer[0] = prevPointer.x;
+  vecPointer[1] = pointer.y; vecPrevPointer[1] = prevPointer.y;
+  vecPointer[2] = pointer.z; vecPrevPointer[2] = prevPointer.z;
+  vecPointer[3] = pointer.d;
 
   velocityMaterial.uniforms.pointer.value = vecPointer
+  velocityMaterial.uniforms.prevPointer.value = vecPrevPointer
   gpuComputer.doRenderTarget(velocityMaterial, velocityTarget[i])
 
   velocityMaterial.uniforms.velocityTexture.value = velocityTarget[i].texture

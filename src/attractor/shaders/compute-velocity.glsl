@@ -2,6 +2,7 @@ uniform sampler2D positionTexture;
 uniform sampler2D responsedPositionTexture;
 uniform sampler2D velocityTexture;
 uniform vec4 pointer;
+uniform vec3 prevPointer;
 
 const float PI  = 3.14159265359;
 const float PHI = 0.61803398875;

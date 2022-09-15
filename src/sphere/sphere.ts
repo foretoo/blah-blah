@@ -1,7 +1,7 @@
 import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { scene } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
-import { Pointer } from "../pointer"
+import { Pointer, PrevPointer } from "../pointer"
 
 import { bindController } from "./controller"
 import { initiateNoiseComputation } from "./gpu-noise"
@@ -78,9 +78,10 @@ export const initSphere = (
     update: (
       t: number,
       pointer: Pointer,
+      prevPointer: PrevPointer,
     ) => {
       const positionTexture = computePosition(t)
-      material.uniforms.positionTexture.value = computeResponse(positionTexture, pointer)
+      material.uniforms.positionTexture.value = computeResponse(positionTexture, pointer, prevPointer)
     }
   }
 }

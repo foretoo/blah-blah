@@ -10,7 +10,7 @@ import { initiatePointer } from "./pointer"
 
 camera.position.set(1, 5, 10)
 
-const pointer = initiatePointer()
+const [ pointer, prevPointer ] = initiatePointer()
 
 gui.add({
   "add sphere": () => spheresUpdate.push(initSphere())
@@ -24,13 +24,14 @@ initClearPlane()
 initiateState()
 
 
+
 let t = 0
 const play = () => {
   t += 0.01
   pointer.d *= 0.9
 
-  spheresUpdate.forEach((sphere) => sphere.update(t, pointer))
-  attractorsUpdate.forEach((attractor) => attractor.update(t, pointer))
+  spheresUpdate.forEach((sphere) => sphere.update(t, pointer, prevPointer))
+  attractorsUpdate.forEach((attractor) => attractor.update(t, pointer, prevPointer))
 
   orbit.update()
   renderer.render(scene, camera)

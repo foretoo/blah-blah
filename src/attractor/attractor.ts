@@ -2,7 +2,7 @@ import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { IInnerAttractorProps, IOuterAttractorProps } from "./types"
 import { scene } from "../setup"
 import { spherePointsAmount } from "../shared"
-import { Pointer } from "../pointer"
+import { Pointer, PrevPointer } from "../pointer"
 
 import { initiateAttractorComputation } from "./gpu-attractor"
 import { initiateNoiseComputation } from "./gpu-noise"
@@ -123,10 +123,11 @@ export const initAttractor = (
     update: (
       t: number,
       pointer: Pointer,
+      prevPointer: PrevPointer,
     ) => {
       const attractorPositionTexture = computeAttractor()
       const noisePositionTexture = computeNoise(t, attractorPositionTexture)
-      const responsedPositionTexture = computeResponse(noisePositionTexture, pointer)
+      const responsedPositionTexture = computeResponse(noisePositionTexture, pointer, prevPointer)
       material.uniforms.positionTexture.value = responsedPositionTexture
     }
   }
