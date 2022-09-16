@@ -101,13 +101,13 @@ export const initAttractor = (
 
 
   const geometry = new BufferGeometry()
-  const position = new Float32Array(amount * 3)
+  const position = new Float32Array(amount * 4)
   const reference = new Float32Array(amount * 2)
   for (let i = 0; i < amount; i++) {
     reference[i * 2 + 0] = (i % side) / side
     reference[i * 2 + 1] = (i / side | 0) / side
   }
-  geometry.setAttribute("position", new BufferAttribute(position, 3))
+  geometry.setAttribute("position", new BufferAttribute(position, 4))
   geometry.setAttribute("reference", new BufferAttribute(reference, 2))
 
 

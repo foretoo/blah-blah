@@ -13,7 +13,7 @@ import fragmentShader from "./shaders/fragment.glsl"
 
 
 const sphereGeometry = new BufferGeometry()
-sphereGeometry.setAttribute("position", new BufferAttribute(spherePositions, 3))
+sphereGeometry.setAttribute("position", new BufferAttribute(spherePositions, 4))
 
 const amount = spherePointsAmount
 const side = Math.sqrt(amount)
