@@ -73,12 +73,14 @@ void main() {
   rpos *= rlen * roughness;
 
   vec3 cpos = cnoise((position + rpos) * noiseScale + t);
-  cpos *= cube(cpos, 2.0) * sphereScale;
+  vec3 platonic = cpos * cube(cpos, 2.0) * sphereScale;
+
+  position = mix(cpos, platonic, 0.5);
 
   // float n = snoise(position + t) * 0.5 + 0.5;
   // vec3 pos = mix(position, cpos, 1.0 - n * 0.1);
 
-  gl_FragColor = vec4(cpos, 1.0);
+  gl_FragColor = vec4(position, 1.0);
 
   // vec4 mvPos = modelViewMatrix * vec4(cpos, 1.0);
   // gl_FragColor = projectionMatrix * mvPos;
