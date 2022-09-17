@@ -129,6 +129,7 @@ export const initAttractor = (
       const noisePositionTexture = computeNoise(t, attractorPositionTexture)
       const responsedPositionTexture = computeResponse(noisePositionTexture, pointer, prevPointer)
       material.uniforms.positionTexture.value = responsedPositionTexture
+      attractor.rotation.y = t / 2
     }
   }
 }
