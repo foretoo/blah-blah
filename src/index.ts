@@ -15,6 +15,12 @@ initClearPlane()
 
 const [ pointer, prevPointer ] = initiatePointer()
 
+gui.add(state.platonicness, "value", 0, 1, 0.01).name("platonicness")
+.onChange((value: number) => {
+  state.platonicness.value = value
+  locateState()
+})
+
 gui.add({
   "add sphere": () => spheresUpdate.push(initSphere())
 },"add sphere")
