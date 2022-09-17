@@ -35,7 +35,13 @@ const positionMaterial = gpuComputer.createShaderMaterial(
     sphereScale: { value: sphereScale },
     noiseScale: { value: noiseScale },
     roughness: { value: roughness },
+    
     platonicness: state.platonicness,
+    isTetra: { value: state.platonictype === "tetra" ? 1 : 0 },
+    isOcta: { value: state.platonictype === "octa" ? 1 : 0 },
+    isCube: { value: state.platonictype === "cube" ? 1 : 0 },
+    isDodeca: { value: state.platonictype === "dodeca" ? 1 : 0 },
+    isIcosa: { value: state.platonictype === "icosa" ? 1 : 0 },
   }
 )
 

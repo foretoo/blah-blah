@@ -9,6 +9,7 @@ import { initiateResponseComputation } from "./gpu-response"
 
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
+import { noiseMaterials } from "../state"
 
 
 
@@ -72,6 +73,7 @@ export const initSphere = (
 
 
   bindController(sphere, positionMaterial, seed, id)
+  noiseMaterials[id] = positionMaterial
 
   return {
     id,

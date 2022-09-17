@@ -10,6 +10,12 @@ uniform float noiseScale;
 uniform float roughness;
 uniform float platonicness;
 
+uniform float isTetra;
+uniform float isOcta;
+uniform float isCube;
+uniform float isDodeca;
+uniform float isIcosa;
+
 #include ../../shared/cnoise;
 #include ../../shared/rough3D;
 
@@ -22,14 +28,18 @@ float tetr(vec3 pos, float r) {
   pos.xz = abs(pos.xz);
   vec3 n = normalize(vec3(0.0, sqrt(0.5), 1.0));
   float d = max(dot(pos, n.xyz), dot(pos, n.zyx * vec3(1.0, -1.0, 1.0)));
-  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.618;
+    d = pow(pow(d, 1.0/100.0) - r, 100.0) * 0.618;
+  float result = d * isTetra + 1.0 - isTetra;
+  return result;
 }
 
 float oct(vec3 pos, float r) {
   pos = abs(pos);
   vec3 n = normalize(vec3(1.0));
   float d = dot(pos, n);
-  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
+    d = pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
+  float result = d * isOcta + 1.0 - isOcta;
+  return result;
 }
 
 float cube(vec3 pos, float r) {
@@ -38,7 +48,9 @@ float cube(vec3 pos, float r) {
   float d =    dot(pos, n.xyz);
     d = max(d, dot(pos, n.zxy));
     d = max(d, dot(pos, n.yzx));
-  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
+    d = pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
+  float result = d * isCube + 1.0 - isCube;
+  return result;
 }
 
 float dodec(vec3 pos, float r){
@@ -47,7 +59,9 @@ float dodec(vec3 pos, float r){
 	float d =    dot(pos, n.xyz);
     d = max(d, dot(pos, n.yzx));
     d = max(d, dot(pos, n.zxy));
-	return pow(pow(d, 1.0/100.0) - r, 100.0);
+	  d = pow(pow(d, 1.0/100.0) - r, 100.0);
+  float result = d * isDodeca + 1.0 - isDodeca;
+  return result;
 }
 
 float icos(vec3 pos, float r) {
@@ -57,7 +71,9 @@ float icos(vec3 pos, float r) {
     d = max(d, dot(pos, n.xyz));
     d = max(d, dot(pos, n.yzx));
     d = max(d, dot(pos, n.zxy));
-  return pow(pow(d, 1.0/100.0) - r, 100.0);
+    d = pow(pow(d, 1.0/100.0) - r, 100.0);
+  float result = d * isIcosa + 1.0 - isIcosa;
+  return result;
 }
 
 
@@ -74,7 +90,12 @@ void main() {
   rpos *= rlen * roughness;
 
   vec3 cpos = cnoise((position + rpos) * noiseScale + t);
-  vec3 platonic = cpos * icos(cpos, 2.0);
+  vec3 platonic = cpos;
+  platonic *= tetr(cpos, 2.0);
+  platonic *= oct(cpos, 2.0);
+  platonic *= cube(cpos, 2.0);
+  platonic *= dodec(cpos, 2.0);
+  platonic *= icos(cpos, 2.0);
 
   position = mix(cpos, platonic, platonicness) * sphereScale;
 

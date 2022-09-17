@@ -11,6 +11,7 @@ import { bindController } from "./controller"
 
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
+import { noiseMaterials } from "../state"
 
 
 
@@ -114,6 +115,7 @@ export const initAttractor = (
 
   const attractor = new Points(geometry, material)
   bindController(attractorMaterial, noiseMaterial, attractor, seed, name, id)
+  noiseMaterials[id] = noiseMaterial
   scene.add(attractor)
 
 

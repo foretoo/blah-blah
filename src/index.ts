@@ -1,6 +1,6 @@
 import "./style.sass"
 import { camera, gui, orbit, renderer, scene } from "./setup"
-import { attractorsUpdate, initiateState, spheresUpdate, state, locateState } from "./state"
+import { attractorsUpdate, initiateState, spheresUpdate, state, locateState, IPlatonic, noiseMaterials } from "./state"
 import { initClearPlane } from "./clear"
 import { initAttractor } from "./attractor"
 import { initSphere } from "./sphere"
@@ -18,6 +18,20 @@ const [ pointer, prevPointer ] = initiatePointer()
 gui.add(state.platonicness, "value", 0, 1, 0.01).name("platonicness")
 .onChange((value: number) => {
   state.platonicness.value = value
+  locateState()
+})
+
+gui.add(state, "platonictype", [ "tetra", "octa", "cube", "dodeca", "icosa" ])
+.name("platonic type")
+.onChange((type: IPlatonic) => {
+  state.platonictype = type
+  for (const id in noiseMaterials) {
+    noiseMaterials[id].uniforms.isTetra.value = type === "tetra" ? 1 : 0
+    noiseMaterials[id].uniforms.isOcta.value = type === "octa" ? 1 : 0
+    noiseMaterials[id].uniforms.isCube.value = type === "cube" ? 1 : 0
+    noiseMaterials[id].uniforms.isDodeca.value = type === "dodeca" ? 1 : 0
+    noiseMaterials[id].uniforms.isIcosa.value = type === "icosa" ? 1 : 0
+  }
   locateState()
 })
 

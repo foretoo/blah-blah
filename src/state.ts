@@ -1,3 +1,4 @@
+import { ShaderMaterial } from "three"
 import { initAttractor } from "./attractor"
 import { IAttractorStorage, IInnerAttractorProps, IOuterAttractorProps } from "./attractor/types"
 import { Pointer, PrevPointer } from "./pointer"
@@ -17,6 +18,8 @@ type IUpdater = {
 
 export const spheresUpdate: IUpdater[] = []
 export const attractorsUpdate: IUpdater[] = []
+
+export const noiseMaterials: { [id: string]: ShaderMaterial } = {}
 
 export type IPlatonic = "tetra" | "octa" | "cube" | "dodeca" | "icosa"
 
