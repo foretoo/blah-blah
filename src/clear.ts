@@ -13,7 +13,7 @@ const clearPlane = new Mesh(
   new MeshBasicMaterial({
     color: 0xfffffff,
     transparent: true,
-    opacity: trailValue || 0.3
+    opacity: trailValue
   })
 )
 clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
