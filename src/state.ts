@@ -23,7 +23,7 @@ export type IPlatonic = "tetra" | "octa" | "cube" | "dodeca" | "icosa"
 type IState = {
   cleartrail: number
   platonictype: IPlatonic
-  platonicness: number
+  platonicness: { value: number }
   attractors: IAttractorStorage
   spheres: IShereStorage
 }
@@ -31,7 +31,9 @@ type IState = {
 export let state: IState = {
   cleartrail: 0.3,
   platonictype: "tetra",
-  platonicness: 0,
+  platonicness: {
+    value: 0,
+  },
   attractors: {},
   spheres: {},
 }
@@ -40,14 +42,14 @@ export const locateState = () => {
   localStorage.setItem("blah-blah", JSON.stringify(state))
 }
 
-export const initiateState = () => {
-
-  const stateRaw = localStorage.getItem("blah-blah")
+const stateRaw = localStorage.getItem("blah-blah")
   
-  if (stateRaw) state = { ...state, ...JSON.parse(stateRaw) }
-  else locateState()
+if (stateRaw) state = { ...state, ...JSON.parse(stateRaw) }
+else locateState()
 
 
+
+export const initiateState = () => {
 
   for (const id in state.spheres) {
 
