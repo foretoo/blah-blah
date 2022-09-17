@@ -2,6 +2,7 @@ import { Matrix4, NearestFilter, RepeatWrapping } from "three"
 import { camera, gpuComputer } from "../setup"
 import { spherePointsAmount, spherePositions } from "../shared"
 import computeNoiseShader from "./shaders/compute-noise.glsl"
+import { state } from "../state"
 
 
 
@@ -34,6 +35,7 @@ const positionMaterial = gpuComputer.createShaderMaterial(
     sphereScale: { value: sphereScale },
     noiseScale: { value: noiseScale },
     roughness: { value: roughness },
+    platonicness: state.platonicness,
   }
 )
 

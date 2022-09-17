@@ -8,6 +8,7 @@ uniform float seed;
 uniform float sphereScale;
 uniform float noiseScale;
 uniform float roughness;
+uniform float platonicness;
 
 #include ../../shared/cnoise;
 #include ../../shared/rough3D;
@@ -21,14 +22,14 @@ float tetr(vec3 pos, float r) {
   pos.xz = abs(pos.xz);
   vec3 n = normalize(vec3(0.0, sqrt(0.5), 1.0));
   float d = max(dot(pos, n.xyz), dot(pos, n.zyx * vec3(1.0, -1.0, 1.0)));
-  return pow(pow(d, 1.0/100.0) - r, 100.0);
+  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.618;
 }
 
 float oct(vec3 pos, float r) {
   pos = abs(pos);
   vec3 n = normalize(vec3(1.0));
   float d = dot(pos, n);
-  return pow(pow(d, 1.0/100.0) - r, 100.0);
+  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
 }
 
 float cube(vec3 pos, float r) {
@@ -37,7 +38,7 @@ float cube(vec3 pos, float r) {
   float d =    dot(pos, n.xyz);
     d = max(d, dot(pos, n.zxy));
     d = max(d, dot(pos, n.yzx));
-  return pow(pow(d, 1.0/100.0) - r, 100.0);
+  return pow(pow(d, 1.0/100.0) - r, 100.0) * 0.8;
 }
 
 float dodec(vec3 pos, float r){
@@ -73,9 +74,9 @@ void main() {
   rpos *= rlen * roughness;
 
   vec3 cpos = cnoise((position + rpos) * noiseScale + t);
-  vec3 platonic = cpos * cube(cpos, 2.0) * sphereScale;
+  vec3 platonic = cpos * icos(cpos, 2.0);
 
-  position = mix(cpos, platonic, 0.5);
+  position = mix(cpos, platonic, platonicness) * sphereScale;
 
   // float n = snoise(position + t) * 0.5 + 0.5;
   // vec3 pos = mix(position, cpos, 1.0 - n * 0.1);
