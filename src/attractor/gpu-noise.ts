@@ -1,6 +1,7 @@
 import { NearestFilter, RepeatWrapping, Texture } from "three"
 import { gpuComputer } from "../setup"
 import { spherePointsAmount } from "../shared"
+import { state } from "../state"
 import computeNoiseShader from "./shaders/compute-noise.glsl"
 
 
@@ -26,6 +27,7 @@ const noiseMaterial = gpuComputer.createShaderMaterial(
     attractorScale: { value: attractorScale },
     noiseStrength: { value: noiseStrength },
     noiseScale: { value: noiseScale },
+    platonicness: state.platonicness,
 
     attractorTexture: { value: null },
   },
