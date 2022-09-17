@@ -1,6 +1,6 @@
 import { BufferGeometry, Points, ShaderMaterial } from "three"
 import { gui, scene } from "../setup"
-import { attractorsUpdate } from "../state"
+import { locateState, attractorsUpdate, state } from "../state"
 import aizawaShader from "./shaders/compute-aizawa.glsl"
 import thomasShader from "./shaders/compute-thomas.glsl"
 import { IAttractorName, IAttractorStorage, IControlledAttractor } from "./types"
@@ -9,13 +9,6 @@ import { IAttractorName, IAttractorStorage, IControlledAttractor } from "./types
 
 let count = 0
 const attractorsList = [ "aizawa", "thomas" ]
-
-
-
-const localStoredAttractors: IAttractorStorage = {}
-const locateAttractors = () => {
-  localStorage.setItem("blah-blah-attractors", JSON.stringify(localStoredAttractors))
-}
 
 
 
@@ -31,10 +24,6 @@ export const bindController = (
   count++
   const attractorFolder = gui.addFolder(`attractor-${count}`)
   attractorFolder.close()
-  const saveAttractor = () => {
-    localStoredAttractors[id] = localStoredAttractor
-    locateAttractors()
-  }
 
 
 
@@ -44,25 +33,25 @@ export const bindController = (
 
   attractorFolder.add(dotSize, "value", 0, 3, 0.01)
   .name("dots size")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(color, "value", 0, 1, 0.01)
   .name("color")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(attractorScale, "value", 0.01, 5, 0.01)
   .name("attractor scale")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(noiseStrength, "value", 0, 1, 0.01)
   .name("noise strength")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(noiseScale, "value", 0.001, 0.382, 0.001)
   .name("noise scale")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(roughness, "value", 0, 1, 0.01)
   .name("roughness")
-  .onChange(saveAttractor)
+  .onChange(locateState)
   attractorFolder.add(vel, "value", 0, 3, 0.01)
   .name("vel")
-  .onChange(saveAttractor)
+  .onChange(locateState)
 
 
 
@@ -81,8 +70,8 @@ export const bindController = (
       attractorMaterial.fragmentShader = aizawaShader
     }
     attractorMaterial.needsUpdate = true
-    localStoredAttractor.name = curr
-    saveAttractor()
+    state.attractors[id].name = curr
+    locateState()
   })
 
   const aizawaFolder = attractorFolder.addFolder(`aizawa`)
@@ -95,18 +84,18 @@ export const bindController = (
 
   const { tb, aa, ab, ac, ad, ae, af } = attractorMaterial.uniforms
 
-  thomasFolder.add(tb, "value", 0.12, 0.28, 0.01).name("b").onChange(saveAttractor)
+  thomasFolder.add(tb, "value", 0.12, 0.28, 0.01).name("b").onChange(locateState)
 
-  aizawaFolder.add(aa, "value", 0, 1, 0.01).name("a").onChange(saveAttractor)
-  aizawaFolder.add(ab, "value", -0.62, 0.62, 0.01).name("b").onChange(saveAttractor)
-  aizawaFolder.add(ac, "value", 1, 5, 0.01).name("c").onChange(saveAttractor)
-  aizawaFolder.add(ad, "value", -3, 3, 0.01).name("d").onChange(saveAttractor)
-  aizawaFolder.add(ae, "value", 0, 0.9, 0.01).name("e").onChange(saveAttractor)
-  aizawaFolder.add(af, "value", -0.5, 0.5, 0.01).name("f").onChange(saveAttractor)
+  aizawaFolder.add(aa, "value", 0, 1, 0.01).name("a").onChange(locateState)
+  aizawaFolder.add(ab, "value", -0.62, 0.62, 0.01).name("b").onChange(locateState)
+  aizawaFolder.add(ac, "value", 1, 5, 0.01).name("c").onChange(locateState)
+  aizawaFolder.add(ad, "value", -3, 3, 0.01).name("d").onChange(locateState)
+  aizawaFolder.add(ae, "value", 0, 0.9, 0.01).name("e").onChange(locateState)
+  aizawaFolder.add(af, "value", -0.5, 0.5, 0.01).name("f").onChange(locateState)
 
 
 
-  const localStoredAttractor: IControlledAttractor = {
+  state.attractors[id] = {
     type: "attractor",
     seed,
     name,
@@ -119,7 +108,7 @@ export const bindController = (
     vel,
     tb, aa, ab, ac, ad, ae, af
   }
-  saveAttractor()
+  locateState()
 
 
 
@@ -134,8 +123,8 @@ export const bindController = (
       scene.remove(attractorMesh)
       attractorFolder.destroy()
 
-      delete localStoredAttractors[id]
-      locateAttractors()
+      delete state.attractors[id]
+      locateState()
     }
   }, "remove" )
 }

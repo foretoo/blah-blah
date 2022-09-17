@@ -1,5 +1,5 @@
 import { BufferGeometry, IUniform, Points, ShaderMaterial } from "three"
-import { spheresUpdate } from "../state"
+import { locateState, spheresUpdate, state } from "../state"
 import { gui, scene } from "../setup"
 
 
@@ -19,11 +19,6 @@ export interface IShereStorage {
   [id: string]: IControlledSphere
 }
 
-const localStoredSpheres: IShereStorage = {}
-const locateSpheres = () => {
-  localStorage.setItem("blah-blah-spheres", JSON.stringify(localStoredSpheres))
-}
-
 
 
 export const bindController = (
@@ -36,11 +31,6 @@ export const bindController = (
   count++
   const sphereFolder = gui.addFolder(`sphere-${count}`)
   sphereFolder.close()
-  const saveShere = () => {
-    localStoredSpheres[id] = localStoredSphere
-    locateSpheres()
-  }
-
 
 
 
@@ -48,19 +38,19 @@ export const bindController = (
   const { sphereScale, noiseScale, roughness } = computeMaterial.uniforms
 
   sphereFolder.add(dotSize, "value", 0, 3, 0.01).name("dot size")
-  .onChange(saveShere)
+  .onChange(locateState)
   sphereFolder.add(color, "value", 0, 1, 0.01).name("color")
-  .onChange(saveShere)
+  .onChange(locateState)
   sphereFolder.add(sphereScale, "value", 0.01, 5, 0.01).name("sphere scale")
-  .onChange(saveShere)
+  .onChange(locateState)
   sphereFolder.add(noiseScale, "value", 0.01, 1, 0.01).name("noise scale")
-  .onChange(saveShere)
+  .onChange(locateState)
   sphereFolder.add(roughness, "value", 0, 1, 0.01).name("roughness")
-  .onChange(saveShere)
+  .onChange(locateState)
 
 
 
-  const localStoredSphere: IControlledSphere = {
+  state.spheres[id] = {
     type: "sphere",
     seed,
     dotSize,
@@ -69,7 +59,7 @@ export const bindController = (
     noiseScale,
     roughness
   }
-  saveShere()
+  locateState()
 
 
 
@@ -82,8 +72,8 @@ export const bindController = (
       scene.remove(sphere)
       sphereFolder.destroy()
 
-      delete localStoredSpheres[id]
-      locateSpheres()
+      delete state.spheres[id]
+      locateState()
     }
   },"remove" )
 }

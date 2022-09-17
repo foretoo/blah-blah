@@ -18,75 +18,98 @@ type IUpdater = {
 export const spheresUpdate: IUpdater[] = []
 export const attractorsUpdate: IUpdater[] = []
 
+export type IPlatonic = "tetra" | "octa" | "cube" | "dodeca" | "icosa"
+
+type IState = {
+  cleartrail: number
+  platonictype: IPlatonic
+  platonicness: number
+  attractors: IAttractorStorage
+  spheres: IShereStorage
+}
+
+export let state: IState = {
+  cleartrail: 0.3,
+  platonictype: "tetra",
+  platonicness: 0,
+  attractors: {},
+  spheres: {},
+}
+
+export const locateState = () => {
+  localStorage.setItem("blah-blah", JSON.stringify(state))
+}
+
 export const initiateState = () => {
 
-  const spheresRaw = localStorage.getItem("blah-blah-spheres")
-  if (spheresRaw) {
-    const spheres: IShereStorage = JSON.parse(spheresRaw)
+  const stateRaw = localStorage.getItem("blah-blah")
+  
+  if (stateRaw) state = { ...state, ...JSON.parse(stateRaw) }
+  else locateState()
 
-    for (const id in spheres) {
-      const { seed, dotSize, color, sphereScale, noiseScale, roughness } = spheres[id]
-      spheresUpdate.push(
-        initSphere(
-          seed,
-          dotSize?.value,
-          color?.value,
-          sphereScale?.value,
-          noiseScale?.value,
-          roughness?.value,
-          id,
-        )
+
+
+  for (const id in state.spheres) {
+
+    const { seed, dotSize, color, sphereScale, noiseScale, roughness } = state.spheres[id]
+  
+    spheresUpdate.push(
+      initSphere(
+        seed,
+        dotSize?.value,
+        color?.value,
+        sphereScale?.value,
+        noiseScale?.value,
+        roughness?.value,
+        id,
       )
-    }
+    )
   }
 
 
 
-  const attractorsRaw = localStorage.getItem("blah-blah-attractors")
-  if (attractorsRaw) {
-    const attractors: IAttractorStorage = JSON.parse(attractorsRaw)
-
-    for (const id in attractors) {
-      
-      const outerAttractorProps: IOuterAttractorProps = {
-        seed: attractors[id].seed,
-        dotSize: attractors[id].dotSize?.value,
-        color: attractors[id].color?.value,
-        attractorScale: attractors[id].attractorScale?.value,
-        noiseStrength: attractors[id].noiseStrength?.value,
-        noiseScale: attractors[id].noiseScale?.value,
-      }
-
-      const innerAttractorProps: IInnerAttractorProps = {
-        name: attractors[id].name,
-        roughness: attractors[id].roughness?.value,
-        vel: attractors[id].vel?.value,
-        tb: attractors[id].tb?.value,
-        aa: attractors[id].aa?.value,
-        ab: attractors[id].ab?.value,
-        ac: attractors[id].ac?.value,
-        ad: attractors[id].ad?.value,
-        ae: attractors[id].ae?.value,
-        af: attractors[id].af?.value,
-      }
-
-      attractorsUpdate.push(
-        initAttractor(
-          outerAttractorProps,
-          innerAttractorProps,
-          id,
-        )
-      )
+  for (const id in state.attractors) {
+    
+    const outerAttractorProps: IOuterAttractorProps = {
+      seed: state.attractors[id].seed,
+      dotSize: state.attractors[id].dotSize?.value,
+      color: state.attractors[id].color?.value,
+      attractorScale: state.attractors[id].attractorScale?.value,
+      noiseStrength: state.attractors[id].noiseStrength?.value,
+      noiseScale: state.attractors[id].noiseScale?.value,
     }
-  }
 
+    const innerAttractorProps: IInnerAttractorProps = {
+      name: state.attractors[id].name,
+      roughness: state.attractors[id].roughness?.value,
+      vel: state.attractors[id].vel?.value,
+      tb: state.attractors[id].tb?.value,
+      aa: state.attractors[id].aa?.value,
+      ab: state.attractors[id].ab?.value,
+      ac: state.attractors[id].ac?.value,
+      ad: state.attractors[id].ad?.value,
+      ae: state.attractors[id].ae?.value,
+      af: state.attractors[id].af?.value,
+    }
+
+    attractorsUpdate.push(
+      initAttractor(
+        outerAttractorProps,
+        innerAttractorProps,
+        id,
+      )
+    )
+  }
 }
 
 
 
 export const getClearPlaneState = () => {
-  const clearPlaneRaw = localStorage.getItem("blah-blah-clear")
-  const trailValue = clearPlaneRaw ? JSON.parse(clearPlaneRaw) as number : null
-  const saveTrail = (value: number) => localStorage.setItem("blah-blah-clear", JSON.stringify(value))
+  const stateRaw = localStorage.getItem("blah-blah")
+  const trailValue = stateRaw ? (JSON.parse(stateRaw) as IState).cleartrail : state.cleartrail
+  const saveTrail = (value: number) => {
+    state.cleartrail = value
+    locateState()
+  }
   return { trailValue, saveTrail }
 }
