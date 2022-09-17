@@ -82,6 +82,7 @@ export const initSphere = (
     ) => {
       const positionTexture = computePosition(t)
       material.uniforms.positionTexture.value = computeResponse(positionTexture, pointer, prevPointer)
+      sphere.rotation.y = t / 2
     }
   }
 }
