@@ -101,15 +101,3 @@ export const initiateState = () => {
     )
   }
 }
-
-
-
-export const getClearPlaneState = () => {
-  const stateRaw = localStorage.getItem("blah-blah")
-  const trailValue = stateRaw ? (JSON.parse(stateRaw) as IState).cleartrail : state.cleartrail
-  const saveTrail = (value: number) => {
-    state.cleartrail = value
-    locateState()
-  }
-  return { trailValue, saveTrail }
-}

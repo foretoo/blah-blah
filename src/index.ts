@@ -1,6 +1,6 @@
 import "./style.sass"
 import { camera, gui, orbit, renderer, scene } from "./setup"
-import { attractorsUpdate, initiateState, spheresUpdate } from "./state"
+import { attractorsUpdate, initiateState, spheresUpdate, state, locateState } from "./state"
 import { initClearPlane } from "./clear"
 import { initAttractor } from "./attractor"
 import { initSphere } from "./sphere"
@@ -9,6 +9,9 @@ import { initiatePointer } from "./pointer"
 
 
 camera.position.set(0, 0, 10)
+initClearPlane()
+
+
 
 const [ pointer, prevPointer ] = initiatePointer()
 
@@ -19,7 +22,7 @@ gui.add({
   "add attractor": () => attractorsUpdate.push(initAttractor())
 },"add attractor")
 
-initClearPlane()
+
 
 initiateState()
 
