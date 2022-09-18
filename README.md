@@ -3,11 +3,13 @@ public:
 
 todos:
 
-- 🛼 ***feature*** — morphing to paltonic solids
+- 🦀 fix: mousePlane rotating
+- 🦀 fix: clearPlane correct resizing on window resize
 - 🧃 ***feature*** — colored fields inside a shape
 
 done:
 
+- ~~🛼 ***feature*** — morphing to paltonic solids~~
 - ~~💨 ***feature*** — pointer response~~
 - ~~👻 ***add*** — clearPlane ui handler~~
 - ~~🤌 ***add*** — ui inputs for dots sizes and color transparency~~
