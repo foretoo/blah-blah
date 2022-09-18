@@ -18,7 +18,10 @@ export const initClearPlane = () => {
       opacity: state.cleartrail
     })
   )
-  clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
+  
+  const scaleClearPlane = () => {
+    clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
+  }
 
   clearPlane.renderOrder = -1
 
@@ -33,15 +36,12 @@ export const initClearPlane = () => {
 
 
 
-  addEventListener("resize", () => {
-    clearPlane.scale.set(innerWidth / innerHeight, 1, 1)
-  })
-  orbit.addEventListener("change", () => {
-    clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
-  })
+  addEventListener("resize", scaleClearPlane)
+  orbit.addEventListener("change", scaleClearPlane)
   
   const distance = camera.position.distanceTo(scene.position) * 2
   clearPlane.position.z = -1 * distance
+  scaleClearPlane()
 
 
 
