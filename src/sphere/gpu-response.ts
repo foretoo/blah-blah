@@ -29,6 +29,7 @@ const velocityMaterial = gpuComputer.createShaderMaterial(
     velocityTexture: { value: velocityTexture },
     pointer: { value: vecPointer },
     prevPointer: { value: vecPrevPointer },
+    time: { value: 0 },
   }
 )
 
@@ -52,6 +53,7 @@ const velocityTarget = Array(2).fill(null).map(() => (
 
 let i = 1
 return (
+  t: number,
   positionTexture: Texture,
   pointer: Pointer,
   prevPointer: PrevPointer,
@@ -60,6 +62,8 @@ return (
 
   velocityMaterial.uniforms.positionTexture.value = positionTexture
   responsedPositionMaterial.uniforms.positionTexture.value = positionTexture
+
+  velocityMaterial.uniforms.time.value = t
 
   vecPointer[0] = pointer.x; vecPrevPointer[0] = prevPointer.x;
   vecPointer[1] = pointer.y; vecPrevPointer[1] = prevPointer.y;
