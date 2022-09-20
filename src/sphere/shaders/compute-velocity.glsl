@@ -6,8 +6,8 @@ uniform vec3 prevPointer;
 uniform float time;
 
 const float PI  = 3.14159265359;
-const float PHI = 0.61803398875;
-const float LEN = PHI * PI;
+const float PHI = 1.61803398875;
+const float LEN = PHI;
 
 
 
@@ -23,22 +23,23 @@ void main() {
 
 
     vec3 pdiff = ptr - pptr;
+    pdiff = length(pdiff) > 0.0 ? normalize(pdiff) : vec3(0.0);
     vec3 diff = currentPosition - ptr;
     float dlen = length(diff);
     float force = dlen < LEN
-      ? cos((dlen / LEN) * PI) * 0.5 + 0.5
+      ? 1.0 - pow(1.0 - pow(1.0 - dlen / LEN, 3.0), 0.333) // cos((dlen / LEN) * PI) * 0.5 + 0.5
       : 0.0;
-    force = pow(force, 3.0) * pointer.w * 0.1;
+    force *= pointer.w * 0.5;
 
     // push from pointer
-    velocity += normalize(diff + pdiff) * force;
+    velocity += mix(normalize(diff), pdiff, 0.333) * force;
 
     // damp velocity of pushing away
-    velocity *= 0.96;
+    velocity *= 0.95;
 
     // pull back to initiate position
     diff = initialPosition - currentPosition;
-    velocity += diff * 0.0005;
+    velocity += diff * 0.0001;
 
 
 
