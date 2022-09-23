@@ -19,7 +19,7 @@ export const initiatePointer = (
     prevPointer.x = pointer.x
     prevPointer.y = pointer.y
     // prevPointer.z = pointer.z
-    
+
     pointer.x = (e.clientX / innerWidth  *  2 - 1) * camera.right * (1 / camera.zoom)
     pointer.y = (e.clientY / innerHeight * -2 + 1) * (1 / camera.zoom)
     // const clen = Math.sqrt(pointer.x ** 2 + pointer.y ** 2)

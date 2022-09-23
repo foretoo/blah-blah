@@ -18,7 +18,7 @@ export const initClearPlane = () => {
       opacity: state.cleartrail
     })
   )
-  
+
   const scaleClearPlane = () => {
     clearPlane.scale.set(innerWidth / innerHeight / camera.zoom, 1 / camera.zoom, 1)
   }

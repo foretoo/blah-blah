@@ -57,7 +57,7 @@ export const initiateState = () => {
   for (const id in state.spheres) {
 
     const { seed, dotSize, color, sphereScale, noiseScale, roughness } = state.spheres[id]
-  
+
     spheresUpdate.push(
       initSphere(
         seed,
@@ -74,7 +74,7 @@ export const initiateState = () => {
 
 
   for (const id in state.attractors) {
-    
+
     const outerAttractorProps: IOuterAttractorProps = {
       seed: state.attractors[id].seed,
       dotSize: state.attractors[id].dotSize?.value,

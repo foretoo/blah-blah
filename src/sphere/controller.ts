@@ -66,7 +66,7 @@ export const bindController = (
   sphereFolder.add({
     remove: () => {
       spheresUpdate.filter((sphere) => sphere.id !== id)
-      
+
       sphere.geometry.dispose()
       sphere.material.dispose()
       scene.remove(sphere)

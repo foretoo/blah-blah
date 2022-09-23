@@ -3,7 +3,7 @@ import { gui, scene } from "../setup"
 import { locateState, attractorsUpdate, state } from "../state"
 import aizawaShader from "./shaders/compute-aizawa.glsl"
 import thomasShader from "./shaders/compute-thomas.glsl"
-import { IAttractorName, IAttractorStorage, IControlledAttractor } from "./types"
+import { IAttractorName } from "./types"
 
 
 
@@ -115,7 +115,7 @@ export const bindController = (
   attractorFolder.add({
     remove: () => {
       attractorsUpdate.filter((attractor) => attractor.id !== id)
-      
+
       attractorMaterial.dispose()
       noiseMaterial.dispose()
       attractorMesh.geometry.dispose()
