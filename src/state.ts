@@ -54,55 +54,62 @@ else locateState()
 
 export const initiateState = () => {
 
-  for (const id in state.spheres) {
+  if (
+    Object.keys(state.spheres).length ||
+    Object.keys(state.attractors).length
+  ) {
 
-    const { seed, dotSize, color, sphereScale, noiseScale, roughness } = state.spheres[id]
+    for (const id in state.spheres) {
 
-    spheresUpdate.push(
-      initSphere(
-        seed,
-        dotSize?.value,
-        color?.value,
-        sphereScale?.value,
-        noiseScale?.value,
-        roughness?.value,
-        id,
+      const { seed, dotSize, color, sphereScale, noiseScale, roughness } = state.spheres[id]
+  
+      spheresUpdate.push(
+        initSphere(
+          seed,
+          dotSize?.value,
+          color?.value,
+          sphereScale?.value,
+          noiseScale?.value,
+          roughness?.value,
+          id,
+        )
       )
-    )
-  }
-
-
-
-  for (const id in state.attractors) {
-
-    const outerAttractorProps: IOuterAttractorProps = {
-      seed: state.attractors[id].seed,
-      dotSize: state.attractors[id].dotSize?.value,
-      color: state.attractors[id].color?.value,
-      attractorScale: state.attractors[id].attractorScale?.value,
-      noiseStrength: state.attractors[id].noiseStrength?.value,
-      noiseScale: state.attractors[id].noiseScale?.value,
     }
 
-    const innerAttractorProps: IInnerAttractorProps = {
-      name: state.attractors[id].name,
-      roughness: state.attractors[id].roughness?.value,
-      vel: state.attractors[id].vel?.value,
-      tb: state.attractors[id].tb?.value,
-      aa: state.attractors[id].aa?.value,
-      ab: state.attractors[id].ab?.value,
-      ac: state.attractors[id].ac?.value,
-      ad: state.attractors[id].ad?.value,
-      ae: state.attractors[id].ae?.value,
-      af: state.attractors[id].af?.value,
+    for (const id in state.attractors) {
+
+      const outerAttractorProps: IOuterAttractorProps = {
+        seed: state.attractors[id].seed,
+        dotSize: state.attractors[id].dotSize?.value,
+        color: state.attractors[id].color?.value,
+        attractorScale: state.attractors[id].attractorScale?.value,
+        noiseStrength: state.attractors[id].noiseStrength?.value,
+        noiseScale: state.attractors[id].noiseScale?.value,
+      }
+
+      const innerAttractorProps: IInnerAttractorProps = {
+        name: state.attractors[id].name,
+        roughness: state.attractors[id].roughness?.value,
+        vel: state.attractors[id].vel?.value,
+        tb: state.attractors[id].tb?.value,
+        aa: state.attractors[id].aa?.value,
+        ab: state.attractors[id].ab?.value,
+        ac: state.attractors[id].ac?.value,
+        ad: state.attractors[id].ad?.value,
+        ae: state.attractors[id].ae?.value,
+        af: state.attractors[id].af?.value,
+      }
+
+      attractorsUpdate.push(
+        initAttractor(
+          outerAttractorProps,
+          innerAttractorProps,
+          id,
+        )
+      )
     }
 
-    attractorsUpdate.push(
-      initAttractor(
-        outerAttractorProps,
-        innerAttractorProps,
-        id,
-      )
-    )
+  } else {
+    spheresUpdate.push(initSphere())
   }
 }
