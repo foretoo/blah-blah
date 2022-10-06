@@ -1,8 +1,17 @@
 {
   "name": "blah-blah",
   "version": "0.0.0",
-  "author": "Sergey Borovikov",
+  "author": {
+    "name": "Sergey Borovikov",
+    "email": "foretoo@proton.me",
+    "url": "https://foretoo.github.io"
+  },
   "type": "module",
+  "main": "./build/index.js",
+  "types": "./build/index.d.js",
+  "files": [
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/foretoo/blah-blah.git"
@@ -21,7 +30,7 @@
     "vite": "^2.9.13",
     "vite-plugin-glsl": "^0.3.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "three": "^0.142.0"
   }
 }
