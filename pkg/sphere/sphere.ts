@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, Points, ShaderMaterial, Vector4 } from "three"
+import { BufferAttribute, BufferGeometry, Points, ShaderMaterial } from "three"
 import { IPlatonicName, ISphereSystem, IUpdater } from "../state"
 import { renderer, scene } from "../init"
 import { spherePointsAmount, spherePositions } from "../shared"
@@ -28,7 +28,7 @@ sphereGeometry.setAttribute("ref", new BufferAttribute(ref, 2))
 
 
 export const initSphere = (
-  dotSize = 1 * renderer.getPixelRatio(),
+  dotSize = 1,
   color = 0.5,
   sphereScale = 1,
   noiseScale = 0.25,
@@ -41,11 +41,12 @@ export const initSphere = (
 } => {
 
   const seed = Math.random() * 123
+  const pr = renderer.getPixelRatio()
 
   const material = new ShaderMaterial({
     uniforms: {
       positionTexture: { value: null },
-      dotSize: { value: dotSize },
+      dotSize: { value: dotSize * pr },
       color: { value: color },
     },
     vertexShader,

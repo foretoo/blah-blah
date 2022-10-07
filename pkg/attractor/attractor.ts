@@ -34,6 +34,7 @@ export const initAttractor = (
 } => {
 
   const seed = Math.random() * 123
+  const pr = renderer.getPixelRatio()
 
   const [ attractorMaterial, computeAttractor ] = initiateAttractorComputation(name, vel, roughness)
   const initialAttractorTexture = computeAttractor()
@@ -52,7 +53,7 @@ export const initAttractor = (
       seed: { value: seed },
       time: { value: 0 },
 
-      dotSize: { value: dotSize },
+      dotSize: { value: dotSize * pr },
       color: { value: color },
 
       positionTexture: { value: null },
