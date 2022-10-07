@@ -66,15 +66,18 @@ export const initParticles = (
   const { spheres, spheresUpdate, attractors, attractorsUpdate } = initiateState(state)
 
   let t = 0
-  const startParticles = () => {
-    t += 0.01
+  const loopParticles = (time: number) => {
+    t = time * 0.0005
     pointer.w *= 0.9
 
     spheresUpdate.forEach((update) => update(t))
     attractorsUpdate.forEach((update) => update(t))
 
     renderer.render(scene, camera)
-    requestAnimationFrame(startParticles)
+    requestAnimationFrame(loopParticles)
+  }
+  const startParticles = () => {
+    requestAnimationFrame(loopParticles)
   }
 
   return {
