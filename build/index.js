@@ -1,4 +1,4 @@
-import { Scene, Camera, Mesh, PlaneGeometry, ShaderMaterial, WebGLRenderTarget, RGBAFormat, DataTexture, FloatType, NearestFilter, ClampToEdgeWrapping, Triangle, Vector3, SphereBufferGeometry, RepeatWrapping, BufferGeometry, BufferAttribute, Points, PlaneBufferGeometry, MeshBasicMaterial, Vector2, Vector4, Color, OrthographicCamera, WebGLRenderer } from "three";
+import { Scene, Camera, Mesh, PlaneGeometry, ShaderMaterial, WebGLRenderTarget, RGBAFormat, DataTexture, FloatType, NearestFilter, ClampToEdgeWrapping, RepeatWrapping, BufferGeometry, BufferAttribute, Points, PlaneBufferGeometry, MeshBasicMaterial, Vector2, Vector4, Color, OrthographicCamera, WebGLRenderer } from "three";
 class GPUComputationRenderer {
   constructor(sizeX, sizeY, renderer2) {
     this.variables = [];
@@ -156,122 +156,28 @@ class GPUComputationRenderer {
     }
   }
 }
-const _face = new Triangle();
-const _color = new Vector3();
-class MeshSurfaceSampler {
-  constructor(mesh) {
-    let geometry = mesh.geometry;
-    if (!geometry.isBufferGeometry || geometry.attributes.position.itemSize !== 3) {
-      throw new Error("THREE.MeshSurfaceSampler: Requires BufferGeometry triangle mesh.");
-    }
-    if (geometry.index) {
-      console.warn("THREE.MeshSurfaceSampler: Converting geometry to non-indexed BufferGeometry.");
-      geometry = geometry.toNonIndexed();
-    }
-    this.geometry = geometry;
-    this.randomFunction = Math.random;
-    this.positionAttribute = this.geometry.getAttribute("position");
-    this.colorAttribute = this.geometry.getAttribute("color");
-    this.weightAttribute = null;
-    this.distribution = null;
-  }
-  setWeightAttribute(name) {
-    this.weightAttribute = name ? this.geometry.getAttribute(name) : null;
-    return this;
-  }
-  build() {
-    const positionAttribute = this.positionAttribute;
-    const weightAttribute = this.weightAttribute;
-    const faceWeights = new Float32Array(positionAttribute.count / 3);
-    for (let i = 0; i < positionAttribute.count; i += 3) {
-      let faceWeight = 1;
-      if (weightAttribute) {
-        faceWeight = weightAttribute.getX(i) + weightAttribute.getX(i + 1) + weightAttribute.getX(i + 2);
-      }
-      _face.a.fromBufferAttribute(positionAttribute, i);
-      _face.b.fromBufferAttribute(positionAttribute, i + 1);
-      _face.c.fromBufferAttribute(positionAttribute, i + 2);
-      faceWeight *= _face.getArea();
-      faceWeights[i / 3] = faceWeight;
-    }
-    this.distribution = new Float32Array(positionAttribute.count / 3);
-    let cumulativeTotal = 0;
-    for (let i = 0; i < faceWeights.length; i++) {
-      cumulativeTotal += faceWeights[i];
-      this.distribution[i] = cumulativeTotal;
-    }
-    return this;
-  }
-  setRandomGenerator(randomFunction) {
-    this.randomFunction = randomFunction;
-    return this;
-  }
-  sample(targetPosition, targetNormal, targetColor) {
-    const cumulativeTotal = this.distribution[this.distribution.length - 1];
-    const faceIndex = this.binarySearch(this.randomFunction() * cumulativeTotal);
-    return this.sampleFace(faceIndex, targetPosition, targetNormal, targetColor);
-  }
-  binarySearch(x) {
-    const dist = this.distribution;
-    let start = 0;
-    let end = dist.length - 1;
-    let index = -1;
-    while (start <= end) {
-      const mid = Math.ceil((start + end) / 2);
-      if (mid === 0 || dist[mid - 1] <= x && dist[mid] > x) {
-        index = mid;
-        break;
-      } else if (x < dist[mid]) {
-        end = mid - 1;
-      } else {
-        start = mid + 1;
-      }
-    }
-    return index;
-  }
-  sampleFace(faceIndex, targetPosition, targetNormal, targetColor) {
-    let u = this.randomFunction();
-    let v = this.randomFunction();
-    if (u + v > 1) {
-      u = 1 - u;
-      v = 1 - v;
-    }
-    _face.a.fromBufferAttribute(this.positionAttribute, faceIndex * 3);
-    _face.b.fromBufferAttribute(this.positionAttribute, faceIndex * 3 + 1);
-    _face.c.fromBufferAttribute(this.positionAttribute, faceIndex * 3 + 2);
-    targetPosition.set(0, 0, 0).addScaledVector(_face.a, u).addScaledVector(_face.b, v).addScaledVector(_face.c, 1 - (u + v));
-    if (targetNormal !== void 0) {
-      _face.getNormal(targetNormal);
-    }
-    if (targetColor !== void 0 && this.colorAttribute !== void 0) {
-      _face.a.fromBufferAttribute(this.colorAttribute, faceIndex * 3);
-      _face.b.fromBufferAttribute(this.colorAttribute, faceIndex * 3 + 1);
-      _face.c.fromBufferAttribute(this.colorAttribute, faceIndex * 3 + 2);
-      _color.set(0, 0, 0).addScaledVector(_face.a, u).addScaledVector(_face.b, v).addScaledVector(_face.c, 1 - (u + v));
-      targetColor.r = _color.x;
-      targetColor.g = _color.y;
-      targetColor.b = _color.z;
-    }
-    return this;
-  }
-}
-const getRandomSurfacePointsBuffer = (geometry, amount2) => {
-  const sampler = new MeshSurfaceSampler(new Mesh(geometry)).setWeightAttribute(null).build();
-  const exactAmount = amount2 * 4;
-  const positions = new Float32Array(exactAmount);
-  const point = new Vector3();
-  for (let i = 0; i < exactAmount; i += 4) {
-    sampler.sample(point);
-    positions[i + 0] = point.x;
-    positions[i + 1] = point.y;
-    positions[i + 2] = point.z;
-    positions[i + 3] = 1;
-  }
-  return positions;
+const getRandomSpherePoint = () => {
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(Math.random() * 2 - 1);
+  const sinTheta = Math.sin(theta);
+  const cosTheta = Math.cos(theta);
+  const sinPhi = Math.sin(phi);
+  const cosPhi = Math.cos(phi);
+  const x = sinPhi * cosTheta;
+  const y = sinPhi * sinTheta;
+  const z = cosPhi;
+  return [x, y, z];
 };
 const spherePointsAmount = 128 ** 2;
-const sphereSurface = new SphereBufferGeometry(1, 36, 18);
-const spherePositions = getRandomSurfacePointsBuffer(sphereSurface, spherePointsAmount);
+const exactAmount = spherePointsAmount * 4;
+const spherePositions = new Float32Array(exactAmount);
+for (let i = 0; i < exactAmount; i += 4) {
+  const [x, y, z] = getRandomSpherePoint();
+  spherePositions[i + 0] = x;
+  spherePositions[i + 1] = y;
+  spherePositions[i + 2] = z;
+  spherePositions[i + 3] = 1;
+}
 var compute_aizawa_default = "uniform float vel;\nuniform float roughness;\n\nuniform float aa;\nuniform float ab;\nuniform float ac;\nuniform float ad;\nuniform float ae;\nuniform float af;\n\nuniform sampler2D positionTexture;\n\nfloat random (vec2 st) {\n  return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n}\n\nvec3 rough3D (vec3 point) {\n  float u = random(point.xy);\n  float v = random(point.yz);\n  float theta = u * 6.28318530718;\n  float phi = acos(2.0 * v - 1.0);\n\n  float sinTheta = sin(theta);\n  float cosTheta = cos(theta);\n  float sinPhi = sin(phi);\n  float cosPhi = cos(phi);\n\n  float r = sqrt(random(point.zx));\n  float x = r * sinPhi * cosTheta;\n  float y = r * sinPhi * sinTheta;\n  float z = r * cosPhi;\n\n  return vec3(x, y, z);\n}\n\nvoid main() {\n  vec2 reference = gl_FragCoord.xy / resolution.xy;\n  vec4 prev = texture(positionTexture, reference);\n  float x = prev.x;\n  float y = prev.y;\n  float z = prev.z;\n  float v = vel / 100.0;\n\n  vec3 next = vec3(\n    x + v * ((z - ab) * x - ad * y),\n    y + v * (ad * x + (z - ab) * y),\n    z + v * (ac + aa * z - z * z * z / 3.0 - (x * x + y * y) * (1.0 + ae * z) + af * z * x * x * x)\n  );\n  next += rough3D(next) * roughness * 0.333;\n\n  gl_FragColor = vec4(next, 1.0);\n}";
 var compute_thomas_default = "uniform float vel;\nuniform float roughness;\n\nuniform float tb;\n\nuniform sampler2D positionTexture;\n\nfloat random (vec2 st) {\n  return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n}\n\nvec3 rough3D (vec3 point) {\n  float u = random(point.xy);\n  float v = random(point.yz);\n  float theta = u * 6.28318530718;\n  float phi = acos(2.0 * v - 1.0);\n\n  float sinTheta = sin(theta);\n  float cosTheta = cos(theta);\n  float sinPhi = sin(phi);\n  float cosPhi = cos(phi);\n\n  float r = sqrt(random(point.zx));\n  float x = r * sinPhi * cosTheta;\n  float y = r * sinPhi * sinTheta;\n  float z = r * cosPhi;\n\n  return vec3(x, y, z);\n}\n\nvoid main() {\n  vec2 reference = gl_FragCoord.xy / resolution.xy;\n  vec4 prev = texture(positionTexture, reference);\n\n  float v = vel / 50.0;\n\n  vec3 next = vec3(\n    prev.x + v * (sin(prev.y) - tb * prev.x),\n    prev.y + v * (sin(prev.z) - tb * prev.y),\n    prev.z + v * (sin(prev.x) - tb * prev.z)\n  );\n  next += rough3D(next) * roughness * 0.333;\n\n  gl_FragColor = vec4(next, 1.0);\n}";
 const shader = {
@@ -400,6 +306,7 @@ const amount$4 = spherePointsAmount;
 const side$4 = Math.sqrt(spherePointsAmount);
 const initAttractor = (dotSize = 1 * renderer.getPixelRatio(), color = 0.5, attractorScale = 1, noiseScale = 0.2, name = "aizawa", roughness = 0.2, vel = 1, platonicness = 0, platonictype = "tetra") => {
   const seed = Math.random() * 123;
+  const pr = renderer.getPixelRatio();
   const [attractorMaterial, computeAttractor] = initiateAttractorComputation(name, vel, roughness);
   const initialAttractorTexture = computeAttractor();
   const [noiseMaterial, computeNoise] = initiateNoiseComputation$1(
@@ -415,7 +322,7 @@ const initAttractor = (dotSize = 1 * renderer.getPixelRatio(), color = 0.5, attr
     uniforms: {
       seed: { value: seed },
       time: { value: 0 },
-      dotSize: { value: dotSize },
+      dotSize: { value: dotSize * pr },
       color: { value: color },
       positionTexture: { value: null }
     },
@@ -553,12 +460,13 @@ for (let i = 0; i < amount$1; i++) {
   ref[i * 2 + 1] = (i / side$1 | 0) / side$1;
 }
 sphereGeometry.setAttribute("ref", new BufferAttribute(ref, 2));
-const initSphere = (dotSize = 1 * renderer.getPixelRatio(), color = 0.5, sphereScale = 1, noiseScale = 0.25, roughness = 0.2, platonicness = 0, platonictype = "tetra") => {
+const initSphere = (dotSize = 1, color = 0.5, sphereScale = 1, noiseScale = 0.25, roughness = 0.2, platonicness = 0, platonictype = "tetra") => {
   const seed = Math.random() * 123;
+  const pr = renderer.getPixelRatio();
   const material = new ShaderMaterial({
     uniforms: {
       positionTexture: { value: null },
-      dotSize: { value: dotSize },
+      dotSize: { value: dotSize * pr },
       color: { value: color }
     },
     vertexShader: vertex_default,
@@ -667,11 +575,13 @@ const initClearPlane = (opacity) => {
 const initiatePointer = (canvas) => {
   const prevPointer2 = new Vector4(0, 0, 0, 0);
   const pointer2 = new Vector4(0, 0, 0, 0);
+  const pr = renderer.getPixelRatio();
+  const cz = 1 / camera.zoom;
   canvas.addEventListener("pointermove", (e) => {
     prevPointer2.x = pointer2.x;
     prevPointer2.y = pointer2.y;
-    pointer2.x = (e.offsetX / canvas.width * 2 - 1) * camera.right * (1 / camera.zoom);
-    pointer2.y = (e.offsetY / canvas.height * -2 + 1) * (1 / camera.zoom);
+    pointer2.x = (e.offsetX / canvas.width * pr * 2 - 1) * camera.right * cz;
+    pointer2.y = (e.offsetY / canvas.height * pr * -2 + 1) * cz;
     const [dx, dy] = [pointer2.x - prevPointer2.x, pointer2.y - prevPointer2.y];
     pointer2.w += Math.sqrt(dx ** 2 + dy ** 2);
   });
@@ -703,13 +613,16 @@ const initParticles = (width, height, state2) => {
   resize(width, height);
   const { spheres: spheres2, spheresUpdate: spheresUpdate2, attractors: attractors2, attractorsUpdate: attractorsUpdate2 } = initiateState(state2);
   let t = 0;
-  const startParticles = () => {
-    t += 0.01;
+  const loopParticles = (time) => {
+    t = time * 5e-4;
     pointer.w *= 0.9;
     spheresUpdate2.forEach((update) => update(t));
     attractorsUpdate2.forEach((update) => update(t));
     renderer.render(scene, camera);
-    requestAnimationFrame(startParticles);
+    requestAnimationFrame(loopParticles);
+  };
+  const startParticles = () => {
+    requestAnimationFrame(loopParticles);
   };
   return {
     canvas: renderer.domElement,
