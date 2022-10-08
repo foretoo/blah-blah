@@ -12,7 +12,7 @@ npm install github:foretoo/blah-blah
 import { initParticles, IParticlesState } from "blah-blah/build"
 
 
-// dotSize and color are multiplied by devicePixelRatio (max 2) on `initParticles` call
+// dotSize is multiplied by devicePixelRatio (max 2) on `initParticles` call
 const initialData: IParticlesState = {
   cleartrail: 0.3,
   spheres: [
